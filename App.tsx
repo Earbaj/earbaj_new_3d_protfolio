@@ -282,7 +282,7 @@ const App: React.FC = () => {
 
               {/* KEY CONTRIBUTIONS WITH HOVER POPUPS */}
               <div className="space-y-4">
-                <h4 className="text-[10px] sm:text-xs font-black text-white/30 uppercase tracking-[0.3em] mb-8">Key Contributions (Hover for details)</h4>
+                <h4 className="text-[10px] sm:text-xs font-black text-white/60 uppercase tracking-[0.3em] mb-8">Key Contributions (Hover for details)</h4>
                 <div className="grid sm:grid-cols-2 gap-4">
                   {CONTRIBUTIONS.map((item, idx) => (
                     <div
@@ -295,7 +295,7 @@ const App: React.FC = () => {
                         <span className={`font-black transition-transform shrink-0 ${hoveredContrib === idx ? 'text-white' : 'text-sky-400'}`}>▹</span>
                         <div className="text-left">
                           <div className="text-[10px] sm:text-xs font-black text-white uppercase tracking-wide mb-1">{item.title}</div>
-                          <span className="text-xs text-white/60 font-medium leading-relaxed">{item.summary}</span>
+                          <span className="text-xs text-white/80 font-medium leading-relaxed">{item.summary}</span>
                         </div>
                       </div>
 
@@ -308,11 +308,11 @@ const App: React.FC = () => {
                               <span className="text-[12px] font-black text-sky-400 uppercase tracking-widest">Technical Deep-Dive</span>
                             </div>
                             <h5 className="text-sm font-black text-white mb-2 uppercase italic">{item.title}</h5>
-                            <p className="text-xs text-white/80 leading-relaxed mb-4 font-light">
+                            <p className="text-[14px] text-white leading-relaxed mb-4 font-light">
                               {item.details}
                             </p>
-                            <div className="pt-3 border-t border-white/10 flex items-center justify-between">
-                              <span className="text-[10px] font-black text-white/30 uppercase">Stack Used</span>
+                            <div className="pt-3 border-t border-white/80 flex items-center justify-between">
+                              <span className="text-[10px] font-black text-white/80 uppercase">Stack Used</span>
                               <span className="text-[10px] font-black text-sky-400">{item.tech}</span>
                             </div>
                           </div>
