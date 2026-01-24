@@ -6,7 +6,6 @@ import WebSimulator from './components/WebSimulator';
 import ChatBot from './components/ChatBot';
 import { PROJECTS, SKILL_CATEGORIES, OPEN_SOURCE } from './constants';
 import { Project } from './types';
-import profilePic from './assets/earbaj_image.png';
 
 const CONTRIBUTIONS = [
   {
