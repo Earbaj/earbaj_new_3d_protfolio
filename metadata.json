@@ -1,0 +1,8 @@
+{
+  "name": "FlutterDev 3D Portfolio",
+  "description": "An immersive 3D-styled portfolio for a Flutter developer featuring a mobile device simulator for project previews and an AI assistant.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
