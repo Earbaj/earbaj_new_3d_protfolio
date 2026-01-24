@@ -210,7 +210,7 @@ const App: React.FC = () => {
             <div className="absolute -inset-4 sm:-inset-6 md:-inset-10 bg-sky-400/10 rounded-[2.5rem] sm:rounded-[3rem] md:rounded-[5rem] blur-[60px] sm:blur-[80px] md:blur-[100px] opacity-40 group-hover:opacity-80 transition-all duration-1000"></div>
             <div className="glass p-3 sm:p-4 md:p-6 rounded-[2.5rem] sm:rounded-[3rem] md:rounded-[5rem] relative shadow-3xl bg-slate-900/40">
               <div className="aspect-[4/5] rounded-[2rem] sm:rounded-[2.5rem] md:rounded-[4rem] overflow-hidden border border-white/10">
-                <img src="/assets/earbaj_image.png" alt="Earbaj" className="w-full h-full object-cover grayscale-[0.2]" />
+                <img src="./assets/earbaj_image.png" alt="Earbaj" className="w-full h-full object-cover grayscale-[0.2]" />
               </div>
               <div className="absolute -bottom-2 -right-2 sm:-bottom-4 sm:-right-4 md:-bottom-8 md:-right-8 p-4 sm:p-6 md:p-8 glass rounded-2xl sm:rounded-3xl md:rounded-[3rem] border-white/40 shadow-2xl max-w-[160px] sm:max-w-[200px] md:max-w-xs backdrop-blur-2xl">
                 <div className="text-[12px] sm:text-[12px] md:text-[14px] font-black text-black uppercase tracking-widest mb-1 italic text-left">Education</div>

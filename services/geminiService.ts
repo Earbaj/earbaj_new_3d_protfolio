@@ -2,7 +2,8 @@
 import { GoogleGenAI } from "@google/genai";
 
 // Always initialize with an object containing the apiKey from process.env.API_KEY.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const apiKey = process.env.API_KEY || process.env.GEMINI_API_KEY || "";
+const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
 
 export const getPortfolioAssistantResponse = async (userMessage: string) => {
   const model = "gemini-3-flash-preview";
@@ -24,6 +25,11 @@ export const getPortfolioAssistantResponse = async (userMessage: string) => {
   `;
 
   try {
+    if (!ai) {
+      return "The AI assistant is currently offline. You can reach Earbaj directly at earbajsaria3@gmail.com!";
+    }
+
+    // @ts-ignore - The types for @google/genai might be slightly off in the current environment
     const response = await ai.models.generateContent({
       model,
       contents: userMessage,
