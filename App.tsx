@@ -206,7 +206,7 @@ const App: React.FC = () => {
             </div>
           </div>
 
-          <div className="relative group mx-auto max-w-xs sm:max-w-sm lg:max-w-none">
+          {/* <div className="relative group mx-auto max-w-xs sm:max-w-sm lg:max-w-none">
             <div className="absolute -inset-4 sm:-inset-6 md:-inset-10 bg-sky-400/10 rounded-[2.5rem] sm:rounded-[3rem] md:rounded-[5rem] blur-[60px] sm:blur-[80px] md:blur-[100px] opacity-40 group-hover:opacity-80 transition-all duration-1000"></div>
             <div className="glass p-3 sm:p-4 md:p-6 rounded-[2.5rem] sm:rounded-[3rem] md:rounded-[5rem] relative shadow-3xl bg-slate-900/40">
               <div className="aspect-[4/5] rounded-[2rem] sm:rounded-[2.5rem] md:rounded-[4rem] overflow-hidden border border-white/10">
@@ -218,7 +218,7 @@ const App: React.FC = () => {
                 <div className="text-[12px] sm:text-[12px] md:text-[12px] text-black font-bold uppercase mt-1 tracking-tighter text-left">BUBT, Bangladesh</div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
 
