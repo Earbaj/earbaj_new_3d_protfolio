@@ -128,9 +128,9 @@ export const InventoryDemo = () => {
                   </div>
 
                   {/* Net Profit card */}
-                  <div className="bg-[#f1f8e9] rounded-2xl p-5 text-center mb-6 border border-green-100 shadow-inner">
+                  <div className="bg-[#f1f8e9] rounded-2xl p-3 text-center mb-3 border border-green-100 shadow-inner">
                      <div className="text-green-600 font-black text-[10px] uppercase tracking-widest mb-1">Net Profit</div>
-                     <div className="text-2xl font-black text-slate-800 mb-1">৳270.00</div>
+                     <div className="text-xl font-black text-slate-800 mb-1">৳270.00</div>
                      <div className="text-[10px] font-bold text-green-600">11.7% Margin</div>
                   </div>
 
@@ -166,10 +166,10 @@ export const InventoryDemo = () => {
                   </div>
 
                   {/* Bottom summary line */}
-                  <div className="mt-8 pt-4 border-t border-purple-100 flex justify-between items-center">
+                  <div className="mt-2 pt-4 border-t border-purple-100 flex justify-between items-center">
                      <div className="text-[8px] font-black text-slate-600 leading-tight">
-                        <div>Revenue: ৳2310.00</div>
-                        <div>Cost: ৳2040.00</div>
+                        <div className="text-[10px] font-black text-slate-600">Revenue: ৳2310.00</div>
+                        <div className="text-[10px] font-black text-slate-600">Cost: ৳2040.00</div>
                      </div>
                      <div className="px-3 py-1.5 bg-green-100 text-green-700 font-black text-[10px] rounded-2xl">
                         11.7%
