@@ -83,6 +83,57 @@ export const VideoCallDemo = ({ onExit }: { onExit: () => void }) => {
         </div>
       </div>
     );
+  } else if(step === 'dashboard') {
+    return (
+        // Dashboard Screen (Screenshot 1)
+        <div className="h-full bg-white flex flex-col font-sans">
+           {/* Header Area */}
+           <div className="bg-gradient-to-r from-blue-500 to-blue-700 pt-12 pb-10 px-6 rounded-b-[2.5rem] shadow-xl relative overflow-hidden">
+              <div className="flex justify-between items-center mb-8 relative z-10">
+                <h1 className="text-sm font-black text-white tracking-tight uppercase">VideoCall App</h1>
+                <button onClick={() => setStep('login')} className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white backdrop-blur-md">
+                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                </button>
+              </div>
+
+              <div className="flex items-center gap-4 relative z-10">
+                 <div className="w-14 h-14 rounded-full border-2 border-white flex items-center justify-center bg-white text-blue-600 font-black text-xl shadow-lg">E</div>
+                 <div className="text-left">
+                    <div className="text-[10px] font-medium text-white/70">Welcome back,</div>
+                    <div className="text-base font-black text-white leading-tight">earbaj</div>
+                    <div className="text-[9px] font-medium text-white/70">earbaj@test.com</div>
+                 </div>
+              </div>
+           </div>
+
+           {/* User List Area */}
+           <div className="flex-1 px-6 pt-8">
+              <div className="flex justify-between items-center mb-6">
+                 <h2 className="text-sm font-black text-slate-800 tracking-tight">Explore Users</h2>
+                 <span className="text-[10px] font-black text-blue-500">View All</span>
+              </div>
+
+              <div className="bg-white rounded-2xl p-4 shadow-lg shadow-slate-100 border border-slate-50 flex items-center gap-4">
+                 <div className="relative">
+                    <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-500 font-black text-lg">S</div>
+                    <div className="absolute bottom-0 right-0 w-3 h-3 bg-slate-300 rounded-full border-2 border-white"></div>
+                 </div>
+                 <div className="flex-1 text-left">
+                    <div className="text-xs font-black text-slate-800">saria</div>
+                    <div className="text-[9px] font-medium text-slate-400">saria@test.com</div>
+                 </div>
+                 <div className="flex gap-2">
+                    <button className="w-8 h-8 rounded-lg bg-green-50 flex items-center justify-center text-green-500">
+                       <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                    </button>
+                    <button className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-500">
+                       <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                    </button>
+                 </div>
+              </div>
+           </div>
+        </div>
+      );
   }
 
   return (
