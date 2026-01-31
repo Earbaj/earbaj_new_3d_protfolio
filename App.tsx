@@ -333,7 +333,7 @@ const App: React.FC = () => {
       <section id="projects" className="py-12 sm:py-20 md:py-32 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto scroll-mt-24 text-left">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-10 sm:mb-16 md:mb-24 gap-6 sm:gap-10">
           <div className="text-left">
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-black mb-2 sm:mb-4 italic uppercase tracking-tighter text-white text-left">Works.</h2>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-black mb-2 sm:mb-4 italic uppercase tracking-tighter text-white text-left">Projects.</h2>
             <p className="text-white/80 max-w-xl font-medium text-sm sm:text-base md:text-lg leading-relaxed text-left">Mobile, Web & Backend solutions for complex ecosystems.</p>
           </div>
 
