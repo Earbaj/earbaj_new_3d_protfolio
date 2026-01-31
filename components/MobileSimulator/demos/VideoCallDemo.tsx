@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 export const VideoCallDemo = ({ onExit }: { onExit: () => void }) => {
   const [step, setStep] = useState<'login' | 'dashboard'>('login');
 
+  // Login Screen
   if (step === 'login') {
     return (
       <div className="h-full w-full bg-gradient-to-b from-[#4A90E2] to-[#9B51E0] flex flex-col items-center justify-center p-4 font-sans relative">
@@ -83,6 +84,7 @@ export const VideoCallDemo = ({ onExit }: { onExit: () => void }) => {
         </div>
       </div>
     );
+    // Dashboard Screen
   } else if(step === 'dashboard') {
     return (
         // Dashboard Screen (Screenshot 1)
