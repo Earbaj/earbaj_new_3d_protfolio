@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
-import MobileSimulator from './components/MobileSimulator';
-import TerminalSimulator from './components/TerminalSimulator';
+import MobileSimulator from './components/MobileSimulator/MobileSimulator';
+import TerminalSimulator from './components/TerminalSimulator/TerminalSimulator';
 import WebSimulator from './components/WebSimulator';
 import ChatBot from './components/ChatBot';
 import { PROJECTS, SKILL_CATEGORIES, OPEN_SOURCE } from './constants';

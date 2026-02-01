@@ -319,8 +319,8 @@
 
 
 import React, { useState, useEffect } from 'react';
-import { Project } from '../types';
-import * as Demos from './MobileSimulator/demos'; // Ensure this path matches your folder structure
+import { Project } from '../../types';
+import * as Demos from './demos'; // Ensure this path matches your folder structure
 
 interface MobileSimulatorProps {
   activeProject: Project;

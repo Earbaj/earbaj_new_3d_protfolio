@@ -1,10 +1,5 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Project } from '../types';
-
-interface TerminalSimulatorProps {
-  activeProject: Project;
-}
 
 interface Log {
   text: string;
@@ -12,53 +7,33 @@ interface Log {
   time: string;
 }
 
-const TerminalSimulator: React.FC<TerminalSimulatorProps> = ({ activeProject }) => {
-  const [logs, setLogs] = useState<Log[]>([]);
-  const [isServerRunning, setIsServerRunning] = useState(false);
-  const logEndRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    setLogs([]);
-    setIsServerRunning(false);
-  }, [activeProject.id]);
+// ==================== 1. PURE UI COMPONENT ====================
+interface TerminalUIProps {
+  title: string;
+  logs: Log[];
+  isServerRunning: boolean;
+  onStartServer: () => void;
+  onTestGet: () => void;
+  onTestPost: () => void;
+}
+
+const TerminalUI: React.FC<TerminalUIProps> = ({
+  title,
+  logs,
+  isServerRunning,
+  onStartServer,
+  onTestGet,
+  onTestPost
+}) => {
+  const logEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     logEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [logs]);
 
-  const addLog = (type: Log['type'], text: string) => {
-    const time = new Date().toLocaleTimeString([], { hour12: false });
-    setLogs(prev => [...prev, { text, type, time }]);
-  };
-
-  const startServer = () => {
-    if (isServerRunning) return;
-    setIsServerRunning(true);
-    addLog('info', `Initializing ${activeProject.title} server...`);
-    setTimeout(() => {
-      addLog('success', 'Connected to MongoDB Atlas...');
-      addLog('success', 'Server started on port 3000 (Express)');
-    }, 800);
-  };
-
-  const testEndpoint = (method: string, endpoint: string) => {
-    if (!isServerRunning) {
-      addLog('info', 'Cannot process request: Server is not running.');
-      return;
-    }
-    addLog('request', `${method} ${endpoint}`);
-    setTimeout(() => {
-      addLog('response', `HTTP/1.1 200 OK - Request processed successfully`);
-      if (activeProject.id === '5') {
-        addLog('info', 'Payload: { "message": "Employee list retrieved" }');
-      } else if (activeProject.id === '6') {
-        addLog('info', 'Payload: { "token": "eyJhbGciOiJIUzI1..." }');
-      }
-    }, 500);
-  };
-
   return (
-    <div className="w-full h-[320px] sm:h-[400px] md:h-[500px] bg-[#0c1117] rounded-2xl sm:rounded-3xl border border-white/10 shadow-2xl overflow-hidden flex flex-col font-mono text-left animate-in fade-in duration-500">
+    <div className="w-full h-[320px] sm:h-[400px] md:h-[500px] bg-[#0c1117] rounded-2xl sm:rounded-3xl border border-white/10 shadow-2xl overflow-hidden flex flex-col font-mono text-left">
       {/* Terminal Header */}
       <div className="bg-[#161b22] px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between border-b border-white/5">
         <div className="flex gap-1.5 sm:gap-2">
@@ -67,7 +42,7 @@ const TerminalSimulator: React.FC<TerminalSimulatorProps> = ({ activeProject }) 
           <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500/50"></div>
         </div>
         <div className="text-[8px] sm:text-[10px] text-white/40 uppercase tracking-widest font-black truncate max-w-[150px] sm:max-w-none">
-          {activeProject.title} • Backend Console
+          {title} • Backend Console
         </div>
       </div>
 
@@ -101,21 +76,21 @@ const TerminalSimulator: React.FC<TerminalSimulatorProps> = ({ activeProject }) 
       <div className="bg-[#0d1117] p-4 sm:p-6 border-t border-white/5 flex gap-2 sm:gap-3">
         {!isServerRunning ? (
           <button 
-            onClick={startServer}
-            className="flex-1 py-3 sm:py-4 bg-sky-500 text-white font-black text-[9px] sm:text-[10px] uppercase tracking-widest rounded-xl shadow-lg shadow-sky-500/20 active:scale-95 transition-all"
+            onClick={onStartServer}
+            className="flex-1 py-3 sm:py-4 bg-sky-500 text-white font-black text-[9px] sm:text-[10px] uppercase tracking-widest rounded-xl shadow-lg shadow-sky-500/20 active:scale-95 transition-all hover:bg-sky-600"
           >
             npm start server
           </button>
         ) : (
           <>
             <button 
-              onClick={() => testEndpoint('GET', '/api/v1/health')}
+              onClick={onTestGet}
               className="flex-1 py-3 bg-white/5 border border-white/10 text-white font-black text-[8px] sm:text-[9px] uppercase tracking-widest rounded-xl hover:bg-white/10 transition-all active:scale-95"
             >
               Test GET
             </button>
             <button 
-              onClick={() => testEndpoint('POST', activeProject.id === '6' ? '/api/auth/login' : '/api/v1/data')}
+              onClick={onTestPost}
               className="flex-1 py-3 bg-white/5 border border-white/10 text-white font-black text-[8px] sm:text-[9px] uppercase tracking-widest rounded-xl hover:bg-white/10 transition-all active:scale-95"
             >
               Test POST
@@ -127,4 +102,4 @@ const TerminalSimulator: React.FC<TerminalSimulatorProps> = ({ activeProject }) 
   );
 };
 
-export default TerminalSimulator;
+export default TerminalUI;
