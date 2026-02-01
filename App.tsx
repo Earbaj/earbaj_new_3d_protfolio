@@ -6,6 +6,7 @@ import WebSimulator from './components/WebSimulator';
 import ChatBot from './components/ChatBot';
 import { PROJECTS, SKILL_CATEGORIES, OPEN_SOURCE } from './constants';
 import { Project } from './types';
+import HeroAnimation from './components/HeroAnimations';
 
 const CONTRIBUTIONS = [
   {
@@ -219,6 +220,9 @@ const App: React.FC = () => {
               </div>
             </div>
           </div> */}
+           <div className="relative group mx-auto max-w-xs sm:max-w-sm lg:max-w-none w-full h-auto flex items-center justify-center">
+            <HeroAnimation />
+          </div>
         </div>
       </section>
 
