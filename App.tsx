@@ -7,6 +7,7 @@ import ChatBot from './components/ChatBot';
 import { PROJECTS, SKILL_CATEGORIES, OPEN_SOURCE } from './constants';
 import { Project } from './types';
 import HeroAnimation from './components/HeroAnimations';
+import GameSimulator from './components/GameSimulator';
 
 const CONTRIBUTIONS = [
   {
@@ -53,7 +54,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['about', 'experience', 'projects', 'skills', 'contact'];
+      const sections = ['about', 'experience', 'projects', 'skills', 'arcade','contact'];
       // Use a smaller offset for smaller screens
       const offset = window.innerWidth < 768 ? 100 : 200;
       const scrollPos = window.scrollY + offset;
@@ -113,9 +114,9 @@ const App: React.FC = () => {
             <a href="#experience" onClick={(e) => scrollToSection(e, 'experience')} className={navItemClass('experience')}>Experience</a>
             <a href="#projects" onClick={(e) => scrollToSection(e, 'projects')} className={navItemClass('projects')}>Projects</a>
             <a href="#skills" onClick={(e) => scrollToSection(e, 'skills')} className={navItemClass('skills')}>Tech</a>
+            <a href="#arcade" onClick={(e) => scrollToSection(e, 'arcade')} className={navItemClass('arcade')}>Arcade</a>
             <a href="#contact" onClick={(e) => scrollToSection(e, 'contact')} className={navItemClass('contact')}>Contact</a>
           </div>
-
           <div className="hidden lg:block w-8"></div>
         </div>
       </nav>
@@ -429,6 +430,12 @@ const App: React.FC = () => {
             </div>
           ))}
         </div>
+      </section>
+
+
+      {/* Arcade Section */}
+      <section id="arcade" className="py-12 sm:py-20 md:py-32 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto scroll-mt-24">
+        <GameSimulator />
       </section>
 
       {/* Contact Section */}
