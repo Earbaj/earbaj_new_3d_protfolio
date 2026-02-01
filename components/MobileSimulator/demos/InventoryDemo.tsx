@@ -178,30 +178,30 @@ export const InventoryDemo = () => {
                </section>
 
                {/* Quick Actions */}
-               <section className="bg-[#e1f5fe] rounded-[2.5rem] p-6 shadow-sm border border-blue-50">
-                  <h3 className="text-base font-black text-slate-800 mb-6 px-1">Quick Actions</h3>
-                  <div className="grid grid-cols-2 gap-4">
-                     <button className="bg-white p-4 rounded-3xl shadow-sm flex flex-col items-center gap-3 border border-slate-50 active:scale-95 transition-all">
-                        <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-500">
-                           <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+               <section className="bg-[#e1f5fe] rounded-2xl p-6 shadow-sm border border-blue-150">
+                  <h3 className="text-sm font-black text-slate-800 mb-2">Quick Actions</h3>
+                  <div className="grid grid-cols-3 gap-4">
+                     <button className="w-15 h-20 bg-white p-4 rounded-2xl shadow-sm flex flex-col items-center gap-2 border border-slate-50 active:scale-95 transition-all">
+                        <div className="w-6 h-6 bg-blue-50 rounded-xl flex items-center justify-center text-blue-500">
+                           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
                         </div>
                         <span className="text-[9px] font-black text-slate-600 uppercase tracking-tight">Manage Items</span>
                      </button>
-                     <button className="bg-white p-4 rounded-3xl shadow-sm flex flex-col items-center gap-3 border border-slate-50 active:scale-95 transition-all">
-                        <div className="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center text-green-500">
-                           <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+                     <button className="w-15 h-20 bg-white p-4 rounded-2xl shadow-sm flex flex-col items-center gap-3 border border-slate-50 active:scale-95 transition-all">
+                        <div className="w-6 h-6 bg-green-50 rounded-xl flex items-center justify-center text-green-500">
+                           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
                         </div>
                         <span className="text-[9px] font-black text-slate-600 uppercase tracking-tight">View Reports</span>
                      </button>
-                     <button className="bg-white p-4 rounded-3xl shadow-sm flex flex-col items-center gap-3 border border-slate-50 active:scale-95 transition-all">
-                        <div className="w-10 h-10 bg-orange-50 rounded-xl flex items-center justify-center text-orange-500">
-                           <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                     <button className="w-15 h-20 bg-white p-4 rounded-2xl shadow-sm flex flex-col items-center gap-3 border border-slate-50 active:scale-95 transition-all">
+                        <div className="w-6 h-6 bg-orange-50 rounded-xl flex items-center justify-center text-orange-500">
+                           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
                         </div>
                         <span className="text-[9px] font-black text-slate-600 uppercase tracking-tight">Customer Ledger</span>
                      </button>
-                     <button className="bg-white p-4 rounded-3xl shadow-sm flex flex-col items-center gap-3 border border-slate-50 active:scale-95 transition-all">
-                        <div className="w-10 h-10 bg-cyan-50 rounded-xl flex items-center justify-center text-cyan-500">
-                           <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                     <button className="w-15 h-20 bg-white p-4 rounded-2xl shadow-sm flex flex-col items-center gap-3 border border-slate-50 active:scale-95 transition-all">
+                        <div className="w-6 h-6 bg-cyan-50 rounded-xl flex items-center justify-center text-cyan-500">
+                           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
                         </div>
                         <span className="text-[9px] font-black text-slate-600 uppercase tracking-tight">Manage Users</span>
                      </button>
