@@ -391,7 +391,7 @@ const MobileSimulator: React.FC<MobileSimulatorProps> = ({ activeProject }) => {
                     {/* Floating Close Button */}
                     <button 
                       onClick={() => setIsLive(false)} 
-                      className="absolute top-10 right-4 w-8 h-8 rounded-xl bg-black/40 backdrop-blur-xl flex items-center justify-center text-white border border-white/20 text-[10px] z-[110] hover:bg-black/60 transition-all active:scale-90"
+                      className="absolute top-5 right-4 w-8 h-8 rounded-xl bg-black/40 backdrop-blur-xl flex items-center justify-center text-white border border-white/20 text-[10px] z-[110] hover:bg-black/60 transition-all active:scale-90"
                     >
                       ✕
                     </button>
