@@ -196,7 +196,7 @@ const App: React.FC = () => {
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 sm:gap-6 md:gap-10 pt-4">
               <button
-                onClick={() => window.open('https://drive.google.com/file/d/1Cx7KGktIru8s-JrGd_3SZfH8_aeFl5Q-/view?usp=drive_link', '_blank')}
+                onClick={() => window.open('https://drive.google.com/file/d/1A599qoFE-OQC66WzN-Ygn4YVhgSjspe8/view?usp=drive_link', '_blank')}
                 className={`${glassyButtonClass} px-6 sm:px-8 md:px-14 py-4 sm:py-5 md:py-7 text-xs sm:text-sm md:text-lg`}
               >
                 VIEW RESUME <span className="text-base sm:text-lg">↓</span>
