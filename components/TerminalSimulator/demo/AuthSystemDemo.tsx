@@ -37,26 +37,58 @@ const AuthSystemDemo = () => {
       return;
     }
 
-    addLog('request', 'GET /api/auth/validate (Bearer token: eyJhbGci...)');
+    addLog('request', 'GET /api/auth/me (Bearer token: eyJhbGci...)');
     
     setTimeout(() => {
       addLog('response', '200 OK - Token valid');
-      addLog('info', 'User: admin@company.com (role: administrator)');
+      addLog('info', 
+        'User: admin'
+      );
+      addLog('info', 
+        'Email: admin@company.com'
+      );
+      addLog('info', 
+        'Role: administrator'
+      );
     }, 500);
   };
 
-  const testPost = () => {
+  const testPost = async () => {
     if (!isServerRunning) {
       addLog('info', 'Server is not running. Start server first.');
       return;
     }
+    await fakeRegister();
+    await fakeLogin();
+  };
+  
 
-    addLog('request', 'POST /api/auth/login');
-    
+  const fakeRegister = () => {
+    return new Promise(resolve => {
+      addLog('request', 'POST /api/auth/register');
+
+    setTimeout(() => {
+      addLog('response', '200 OK - register successful');
+      addLog('info', 'User: admin');
+      addLog('info', 'Email: admin@company.com');
+      addLog('info', 'Role: administrator');
+      resolve(true); // register done
+    }, 500);
+    });
+  };
+
+  const fakeLogin = () => {
+    return new Promise(resolve => {
+       addLog('request', 'POST /api/auth/login');
+
     setTimeout(() => {
       addLog('response', '200 OK - Login successful');
-      addLog('info', 'JWT token issued (expires in 24h)');
+      addLog('info', 'User: admin');
+      addLog('info', 'Email: admin@company.com');
+      addLog('info', 'JWT token: eyJhbGci...');
+      resolve(true); // login done
     }, 500);
+    });
   };
 
   return (
