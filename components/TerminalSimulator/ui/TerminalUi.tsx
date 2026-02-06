@@ -153,7 +153,7 @@ const TerminalUI: React.FC<TerminalUIProps> = ({
   const current = themes[theme];
 
   return (
-    <div className="w-full max-w-2xl mx-auto h-auto aspect-[1/1] sm:aspect-[6/5] px-4 sm:px-0 font-mono selection:bg-white/20">
+    <div className="w-full max-w-2xl mx-auto h-auto aspect-[1/1] sm:aspect-[8/7] px-4 sm:px-0 font-mono selection:bg-white/20">
       <div className={`relative z-10 ${current.bg} rounded-xl sm:rounded-[1.5rem] border ${current.border} shadow-2xl overflow-hidden flex flex-col backdrop-blur-xl h-full`}>
 
         {/* --- TOP BAR (Responsive Title) --- */}
@@ -236,11 +236,11 @@ const TerminalUI: React.FC<TerminalUIProps> = ({
         </div>
 
         {/* --- FOOTER (Responsive Grid) --- */}
-        <div className="p-3 sm:p-4 bg-black/60 border-t border-white/10 flex flex-col gap-2 sm:gap-3 mt-auto">
+        <div className="p-3 sm:p-2 bg-black/60 border-t border-white/20 flex flex-col gap-2 sm:gap-2 mt-auto">
           {!isServerRunning ? (
             <button
               onClick={onStartServer}
-              className={`w-full py-3 sm:py-4 bg-white/5 border border-white/10 hover:bg-white/10 text-white font-black text-[9px] sm:text-[10px] uppercase tracking-[0.2em] rounded-xl transition-all active:scale-95`}
+              className={`w-full py-3 sm:py-4 bg-white/5 border border-white/40 hover:bg-white/10 text-white font-black text-[9px] sm:text-[10px] uppercase tracking-[0.2em] rounded-xl transition-all active:scale-95`}
             >
               NPM START SERVER
             </button>
@@ -248,13 +248,13 @@ const TerminalUI: React.FC<TerminalUIProps> = ({
             <div className="grid grid-cols-2 gap-2 sm:gap-3">
               <button
                 onClick={onTestGet}
-                className="py-2.5 sm:py-3 bg-white/5 border border-white/10 text-white/60 font-black text-[8px] sm:text-[9px] uppercase tracking-widest rounded-xl hover:bg-white/10 hover:text-white transition-all active:scale-95"
+                className="py-2.5 sm:py-3 bg-white/5 border border-white/40 text-white/60 font-black text-[8px] sm:text-[10px] uppercase tracking-widest rounded-xl hover:bg-white/10 hover:text-white transition-all active:scale-95"
               >
                 GET API
               </button>
               <button
                 onClick={onTestPost}
-                className="py-2.5 sm:py-3 bg-white/5 border border-white/10 text-white/60 font-black text-[8px] sm:text-[9px] uppercase tracking-widest rounded-xl hover:bg-white/10 hover:text-white transition-all active:scale-95"
+                className="py-2.5 sm:py-3 bg-white/5 border border-white/40 text-white/60 font-black text-[8px] sm:text-[10px] uppercase tracking-widest rounded-xl hover:bg-white/10 hover:text-white transition-all active:scale-95"
               >
                 POST API
               </button>
@@ -262,7 +262,7 @@ const TerminalUI: React.FC<TerminalUIProps> = ({
               {onTestPut && (
                 <button
                   onClick={onTestPut}
-                  className="py-2.5 sm:py-3 bg-white/5 border border-white/10 text-white/60 font-black text-[8px] sm:text-[9px] uppercase tracking-widest rounded-xl hover:bg-white/10 hover:text-white transition-all active:scale-95"
+                  className="py-2.5 sm:py-3 bg-white/5 border border-white/40 text-white/60 font-black text-[8px] sm:text-[10px] uppercase tracking-widest rounded-xl hover:bg-white/10 hover:text-white transition-all active:scale-95"
                 >
                   PUT API
                 </button>
@@ -270,7 +270,7 @@ const TerminalUI: React.FC<TerminalUIProps> = ({
               {onTestDelete && (
                 <button
                   onClick={onTestDelete}
-                  className="py-2.5 sm:py-3 bg-white/5 border border-white/10 text-white/60 font-black text-[8px] sm:text-[9px] uppercase tracking-widest rounded-xl hover:bg-white/10 hover:text-white transition-all active:scale-95"
+                  className="py-2.5 sm:py-3 bg-white/5 border border-white/40 text-white/60 font-black text-[8px] sm:text-[10px] uppercase tracking-widest rounded-xl hover:bg-rose-500/10 hover:text-rose-500 hover:border-rose-500/50 transition-all active:scale-95"
                 >
                   Delete API
                 </button>
