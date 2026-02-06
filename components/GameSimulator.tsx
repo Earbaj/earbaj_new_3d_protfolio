@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 
-type GameType = 'snake' | 'jump' | 'none';
+type GameType = 'snake' | 'jump' | 'puzzle' | 'none';
 
 const GameSimulator: React.FC = () => {
   const [activeGame, setActiveGame] = useState<GameType>('none');
@@ -22,7 +22,7 @@ const GameSimulator: React.FC = () => {
   useEffect(() => { activeGameRef.current = activeGame; }, [activeGame]);
   useEffect(() => { gameStateRef.current = gameState; }, [gameState]);
 
-  // --- SNAKE DATA (Optimized Grid) ---
+  // --- SNAKE DATA ---
   const snakeRef = useRef({
     body: [{ x: 10, y: 7 }, { x: 10, y: 8 }, { x: 10, y: 9 }],
     dir: { x: 0, y: -1 },
@@ -43,6 +43,15 @@ const GameSimulator: React.FC = () => {
     obstacles: [] as { x: number, width: number }[],
     frame: 0,
     isJumping: false
+  });
+
+  // --- PUZZLE DATA (Sliding Tiles) ---
+  const puzzleRef = useRef({
+    grid: [] as (number | null)[],
+    moves: 0,
+    gridSize: 3, // 3x3
+    tileSize: 100,
+    winCondition: [1, 2, 3, 4, 5, 6, 7, 8, null]
   });
 
   const doSpawnFood = useCallback(() => {
@@ -104,6 +113,64 @@ const GameSimulator: React.FC = () => {
         frame: 0,
         isJumping: false
       };
+    } else if (game === 'puzzle') {
+      // Initialize solved grid
+      let newGrid: (number | null)[] = [1, 2, 3, 4, 5, 6, 7, 8, null];
+      // Shuffle by making valid moves (ensures solvability)
+      for (let i = 0; i < 100; i++) {
+        const emptyIdx = newGrid.indexOf(null);
+        const adj = [];
+        if (emptyIdx % 3 > 0) adj.push(emptyIdx - 1);
+        if (emptyIdx % 3 < 2) adj.push(emptyIdx + 1);
+        if (emptyIdx >= 3) adj.push(emptyIdx - 3);
+        if (emptyIdx < 6) adj.push(emptyIdx + 3);
+        const moveIdx = adj[Math.floor(Math.random() * adj.length)];
+        [newGrid[emptyIdx], newGrid[moveIdx]] = [newGrid[moveIdx], newGrid[emptyIdx]];
+      }
+      puzzleRef.current.grid = newGrid;
+      puzzleRef.current.moves = 0;
+    }
+  };
+
+  const handlePuzzleClick = (x: number, y: number) => {
+    if (gameStateRef.current !== 'playing') return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    // Scale coordinates if canvas is resized by CSS
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const clickX = (x - rect.left) * scaleX;
+    const clickY = (y - rect.top) * scaleY;
+
+    // Offset puzzle from center
+    const startX = (480 - 300) / 2;
+    const startY = (360 - 300) / 2;
+    
+    if (clickX < startX || clickX > startX + 300 || clickY < startY || clickY > startY + 300) return;
+    
+    const gridX = Math.floor((clickX - startX) / 100);
+    const gridY = Math.floor((clickY - startY) / 100);
+    const clickedIdx = gridY * 3 + gridX;
+    
+    const emptyIdx = puzzleRef.current.grid.indexOf(null);
+    const isAdjacent = 
+      (Math.abs(gridX - (emptyIdx % 3)) === 1 && gridY === Math.floor(emptyIdx / 3)) ||
+      (Math.abs(gridY - Math.floor(emptyIdx / 3)) === 1 && gridX === emptyIdx % 3);
+
+    if (isAdjacent) {
+      const newGrid = [...puzzleRef.current.grid];
+      [newGrid[emptyIdx], newGrid[clickedIdx]] = [newGrid[clickedIdx], newGrid[emptyIdx]];
+      puzzleRef.current.grid = newGrid;
+      puzzleRef.current.moves += 1;
+      setScore(puzzleRef.current.moves);
+
+      // Check win condition
+      if (newGrid.every((val, i) => val === puzzleRef.current.winCondition[i])) {
+        setGameState('gameover');
+        gameStateRef.current = 'gameover';
+      }
     }
   };
 
@@ -127,7 +194,7 @@ const GameSimulator: React.FC = () => {
 
       const keysToBlock = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' '];
       if (keysToBlock.includes(e.key)) {
-        e.preventDefault(); // FIX: Prevent page scroll
+        e.preventDefault();
       }
 
       if (activeGameRef.current === 'snake') {
@@ -266,6 +333,51 @@ const GameSimulator: React.FC = () => {
        setScore(s => s + 1);
     }
 
+    if (activeGameRef.current === 'puzzle' && gameStateRef.current === 'playing') {
+      const { grid, tileSize } = puzzleRef.current;
+      const startX = (480 - 300) / 2;
+      const startY = (360 - 300) / 2;
+
+      // Draw Grid Background
+      ctx.fillStyle = 'rgba(255,255,255,0.02)';
+      ctx.fillRect(startX, startY, 300, 300);
+      
+      grid.forEach((val, i) => {
+        if (val === null) return;
+        const gx = i % 3;
+        const gy = Math.floor(i / 3);
+        const tx = startX + gx * tileSize;
+        const ty = startY + gy * tileSize;
+        
+        // Tile Shadow
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = 'rgba(56,189,248,0.2)';
+        
+        // Tile Box
+        ctx.fillStyle = 'rgba(56,189,248,0.1)';
+        ctx.strokeStyle = 'rgba(56,189,248,0.4)';
+        ctx.lineWidth = 2;
+        
+        if (ctx.roundRect) {
+          ctx.beginPath();
+          ctx.roundRect(tx + 5, ty + 5, tileSize - 10, tileSize - 10, 12);
+          ctx.fill();
+          ctx.stroke();
+        } else {
+          ctx.fillRect(tx + 5, ty + 5, tileSize - 10, tileSize - 10);
+          ctx.strokeRect(tx + 5, ty + 5, tileSize - 10, tileSize - 10);
+        }
+
+        // Tile Number
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 32px Space Grotesk';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(val.toString(), tx + tileSize / 2, ty + tileSize / 2);
+      });
+    }
+
     requestRef.current = requestAnimationFrame(loop);
   }, [doSpawnFood]);
 
@@ -285,7 +397,6 @@ const GameSimulator: React.FC = () => {
     <div className="w-full max-w-5xl mx-auto py-8 sm:py-12 px-2 sm:px-4">
       <div className="glass p-4 sm:p-6 md:p-12 rounded-[2rem] sm:rounded-[3.5rem] border-white/5 bg-slate-900/40 shadow-3xl flex flex-col items-center">
         
-        {/* Header Information */}
         <div className="flex flex-col sm:flex-row justify-between w-full mb-6 sm:mb-10 items-start sm:items-center gap-4">
           <div className="text-left">
             <h3 className="text-xl sm:text-3xl font-black text-white italic uppercase tracking-tighter">Arena <span className="text-sky-400">Prime.</span></h3>
@@ -293,7 +404,7 @@ const GameSimulator: React.FC = () => {
           </div>
           <div className="flex gap-4 sm:gap-6 w-full sm:w-auto justify-between sm:justify-end">
              <div className="text-right">
-                <div className="text-[8px] sm:text-[9px] font-black text-sky-400 uppercase tracking-widest">Score</div>
+                <div className="text-[8px] sm:text-[9px] font-black text-sky-400 uppercase tracking-widest">{activeGame === 'puzzle' ? 'Moves' : 'Score'}</div>
                 <div className="text-xl sm:text-3xl font-black text-white leading-none">{score}</div>
              </div>
              <div className="text-right">
@@ -303,27 +414,22 @@ const GameSimulator: React.FC = () => {
           </div>
         </div>
 
-        {/* Console Viewport - Responsively Sized */}
         <div className="relative w-full max-w-[480px] bg-slate-950 rounded-[1.5rem] sm:rounded-[2.5rem] border-[6px] sm:border-[12px] border-slate-800 shadow-[0_0_100px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden mx-auto transition-all duration-500 hover:border-slate-700 aspect-[4/3]">
           {activeGame === 'none' ? (
             <div className="flex-1 flex flex-col items-center justify-center gap-6 sm:gap-10 p-4 sm:p-8">
                <div className="grid grid-cols-2 gap-3 sm:gap-6 w-full">
-                  <button onClick={() => { setActiveGame('snake'); resetGame('snake'); }} className="group relative glass p-4 sm:p-8 rounded-2xl sm:rounded-3xl border-white/10 hover:border-green-500/50 transition-all text-center bg-white/5">
-                     <div className="text-3xl sm:text-5xl mb-2 sm:mb-4 group-hover:scale-125 transition-transform duration-500">🐍</div>
-                     <div className="text-[9px] sm:text-[11px] font-black text-white uppercase tracking-[0.2em]">Mega Snake</div>
+                  <button onClick={() => { setActiveGame('snake'); resetGame('snake'); }} className="group relative glass p-4 sm:p-6 rounded-2xl border-white/10 hover:border-green-500/50 transition-all text-center bg-white/5">
+                     <div className="text-3xl sm:text-4xl mb-2 group-hover:scale-110 transition-transform">🐍</div>
+                     <div className="text-[8px] sm:text-[10px] font-black text-white uppercase tracking-widest">Mega Snake</div>
                   </button>
-                  <button onClick={() => { setActiveGame('jump'); resetGame('jump'); }} className="group relative glass p-4 sm:p-8 rounded-2xl sm:rounded-3xl border-white/10 hover:border-sky-500/50 transition-all text-center bg-white/5">
-                     <div className="text-3xl sm:text-5xl mb-2 sm:mb-4 group-hover:scale-125 transition-transform duration-500">🏃‍♂️</div>
-                     <div className="text-[9px] sm:text-[11px] font-black text-white uppercase tracking-[0.2em]">Neon Rush</div>
+                  <button onClick={() => { setActiveGame('jump'); resetGame('jump'); }} className="group relative glass p-4 sm:p-6 rounded-2xl border-white/10 hover:border-sky-500/50 transition-all text-center bg-white/5">
+                     <div className="text-3xl sm:text-4xl mb-2 group-hover:scale-110 transition-transform">🏃‍♂️</div>
+                     <div className="text-[8px] sm:text-[10px] font-black text-white uppercase tracking-widest">Neon Rush</div>
                   </button>
-               </div>
-               <div className="space-y-1 sm:space-y-2 text-center">
-                 <p className="text-[8px] sm:text-[10px] text-white/40 font-black uppercase tracking-[0.3em] sm:tracking-[0.4em]">Initialize Connection</p>
-                 <div className="flex gap-1.5 sm:gap-2 justify-center">
-                    <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-sky-500 rounded-full animate-ping"></div>
-                    <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-sky-500/50 rounded-full"></div>
-                    <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-sky-500/20 rounded-full"></div>
-                 </div>
+                  <button onClick={() => { setActiveGame('puzzle'); resetGame('puzzle'); }} className="group relative glass p-4 sm:p-6 rounded-2xl border-white/10 hover:border-amber-500/50 transition-all text-center bg-white/5 col-span-2">
+                     <div className="text-3xl sm:text-4xl mb-2 group-hover:scale-110 transition-transform">🧩</div>
+                     <div className="text-[8px] sm:text-[10px] font-black text-white uppercase tracking-widest">Logic Tiles</div>
+                  </button>
                </div>
             </div>
           ) : (
@@ -332,18 +438,27 @@ const GameSimulator: React.FC = () => {
                 ref={canvasRef} 
                 width={480} 
                 height={360} 
-                className="w-full h-full object-contain cursor-none touch-none"
-                onClick={activeGame === 'jump' ? handleJump : undefined}
+                className={`w-full h-full object-contain touch-none ${activeGame === 'puzzle' ? 'cursor-pointer' : 'cursor-none'}`}
+                onClick={(e) => {
+                  if (activeGame === 'puzzle') handlePuzzleClick(e.clientX, e.clientY);
+                  else if (activeGame === 'jump') handleJump();
+                }}
               />
               
               {gameState === 'gameover' && (
                 <div className="absolute inset-0 bg-black/90 backdrop-blur-md flex flex-col items-center justify-center p-4 sm:p-8 text-center animate-in zoom-in duration-500 z-50">
-                   <div className="w-12 h-12 sm:w-16 sm:h-16 bg-red-500/20 rounded-full flex items-center justify-center mb-4 sm:mb-6 border border-red-500/50">
-                      <span className="text-2xl sm:text-3xl">⚠️</span>
+                   <div className="w-12 h-12 sm:w-16 sm:h-16 bg-sky-500/20 rounded-full flex items-center justify-center mb-4 sm:mb-6 border border-sky-500/50">
+                      <span className="text-2xl sm:text-3xl">{activeGame === 'puzzle' ? '🏆' : '⚠️'}</span>
                    </div>
-                   <h4 className="text-3xl sm:text-5xl font-black text-red-500 italic uppercase mb-1 sm:mb-2 tracking-tighter">System Error</h4>
-                   <p className="text-white/40 font-black uppercase text-[8px] sm:text-[10px] tracking-widest mb-6 sm:mb-10">Data Integrity Corrupted | Score: {score}</p>
-                   <button onClick={() => resetGame(activeGame)} className="w-full max-w-[180px] sm:max-w-[200px] py-4 sm:py-5 bg-sky-500 text-white rounded-xl sm:rounded-2xl font-black uppercase text-[10px] sm:text-xs tracking-[0.2em] shadow-[0_15px_30px_rgba(56,189,248,0.3)] active:scale-95 transition-all">Reboot Core</button>
+                   <h4 className="text-3xl sm:text-5xl font-black text-sky-400 italic uppercase mb-1 sm:mb-2 tracking-tighter">
+                     {activeGame === 'puzzle' ? 'Decoded' : 'System Error'}
+                   </h4>
+                   <p className="text-white/40 font-black uppercase text-[8px] sm:text-[10px] tracking-widest mb-6 sm:mb-10">
+                     {activeGame === 'puzzle' ? `Completed in ${score} moves` : `Data Integrity Corrupted | Score: ${score}`}
+                   </p>
+                   <button onClick={() => resetGame(activeGame)} className="w-full max-w-[180px] sm:max-w-[200px] py-4 sm:py-5 bg-sky-500 text-white rounded-xl sm:rounded-2xl font-black uppercase text-[10px] sm:text-xs tracking-[0.2em] shadow-xl active:scale-95 transition-all">
+                     {activeGame === 'puzzle' ? 'New Grid' : 'Reboot Core'}
+                   </button>
                    <button onClick={() => setActiveGame('none')} className="mt-4 sm:mt-6 text-white/20 text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] hover:text-white transition-colors">Terminate Process</button>
                 </div>
               )}
@@ -352,52 +467,37 @@ const GameSimulator: React.FC = () => {
                  <button onClick={() => setActiveGame('none')} className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-white transition-colors hover:bg-red-500/20 group">
                     <span className="group-hover:rotate-90 transition-transform">✕</span>
                  </button>
-                 {(score > 0 && (score / 10) % 6 === 5) && (
-                   <div className="px-2 py-0.5 sm:px-3 sm:py-1 bg-amber-500 text-black text-[7px] sm:text-[9px] font-black rounded-md sm:rounded-lg animate-pulse uppercase">Mega Signal</div>
-                 )}
               </div>
             </div>
           )}
         </div>
 
-        {/* Tactical Controls - Responsive Grid */}
-        {activeGame !== 'none' && (
+        {activeGame !== 'none' && activeGame !== 'puzzle' && (
           <div className="mt-8 sm:mt-12 grid grid-cols-1 sm:grid-cols-2 w-full max-w-[480px] gap-8 sm:gap-16 items-center">
-            {/* DPAD */}
             <div className="flex flex-col items-center order-2 sm:order-1">
               <div className="grid grid-cols-3 gap-2">
                 <div />
-                <button 
-                  onMouseDown={(e) => { e.preventDefault(); handleSnakeDir({x:0, y:-1}); }} 
-                  className="w-12 h-12 sm:w-14 sm:h-14 bg-slate-800 rounded-xl sm:rounded-2xl flex items-center justify-center text-white active:bg-sky-500 shadow-xl border border-white/5 touch-none"
-                >↑</button>
+                <button onMouseDown={(e) => { e.preventDefault(); handleSnakeDir({x:0, y:-1}); }} className="w-12 h-12 sm:w-14 sm:h-14 bg-slate-800 rounded-xl flex items-center justify-center text-white active:bg-sky-500 border border-white/5">↑</button>
                 <div />
-                <button 
-                  onMouseDown={(e) => { e.preventDefault(); handleSnakeDir({x:-1, y:0}); }} 
-                  className="w-12 h-12 sm:w-14 sm:h-14 bg-slate-800 rounded-xl sm:rounded-2xl flex items-center justify-center text-white active:bg-sky-500 shadow-xl border border-white/5 touch-none"
-                >←</button>
-                <button 
-                  onMouseDown={(e) => { e.preventDefault(); handleSnakeDir({x:0, y:1}); }} 
-                  className="w-12 h-12 sm:w-14 sm:h-14 bg-slate-800 rounded-xl sm:rounded-2xl flex items-center justify-center text-white active:bg-sky-500 shadow-xl border border-white/5 touch-none"
-                >↓</button>
-                <button 
-                  onMouseDown={(e) => { e.preventDefault(); handleSnakeDir({x:1, y:0}); }} 
-                  className="w-12 h-12 sm:w-14 sm:h-14 bg-slate-800 rounded-xl sm:rounded-2xl flex items-center justify-center text-white active:bg-sky-500 shadow-xl border border-white/5 touch-none"
-                >→</button>
+                <button onMouseDown={(e) => { e.preventDefault(); handleSnakeDir({x:-1, y:0}); }} className="w-12 h-12 sm:w-14 sm:h-14 bg-slate-800 rounded-xl flex items-center justify-center text-white active:bg-sky-500 border border-white/5">←</button>
+                <button onMouseDown={(e) => { e.preventDefault(); handleSnakeDir({x:0, y:1}); }} className="w-12 h-12 sm:w-14 sm:h-14 bg-slate-800 rounded-xl flex items-center justify-center text-white active:bg-sky-500 border border-white/5">↓</button>
+                <button onMouseDown={(e) => { e.preventDefault(); handleSnakeDir({x:1, y:0}); }} className="w-12 h-12 sm:w-14 sm:h-14 bg-slate-800 rounded-xl flex items-center justify-center text-white active:bg-sky-500 border border-white/5">→</button>
               </div>
               <p className="mt-3 text-[8px] sm:text-[9px] font-black text-white/20 uppercase tracking-[0.3em]">Vector Control</p>
             </div>
-
-            {/* ACTION BUTTON */}
             <div className="flex flex-col items-center justify-center order-1 sm:order-2">
-              <button 
-                onMouseDown={(e) => { e.preventDefault(); handleJump(); }}
-                className="w-20 h-20 sm:w-28 sm:h-28 bg-sky-500/10 border-[4px] sm:border-[6px] border-sky-500/30 rounded-full flex items-center justify-center text-sky-400 font-black text-[10px] sm:text-xs uppercase shadow-[0_0_40px_rgba(56,189,248,0.2)] active:scale-90 active:bg-sky-500 active:text-white transition-all group touch-none"
-              >
+              <button onMouseDown={(e) => { e.preventDefault(); handleJump(); }} className="w-20 h-20 sm:w-28 sm:h-28 bg-sky-500/10 border-[4px] sm:border-[6px] border-sky-500/30 rounded-full flex items-center justify-center text-sky-400 font-black text-[10px] uppercase shadow-2xl active:scale-90 active:bg-sky-500 active:text-white transition-all group">
                 <span className="group-active:animate-ping">TRIGGER</span>
               </button>
               <p className="mt-4 text-[8px] sm:text-[9px] font-black text-white/20 uppercase tracking-[0.3em]">Main Reactor</p>
             </div>
+          </div>
+        )}
+        
+        {activeGame === 'puzzle' && (
+          <div className="mt-8 text-center">
+            <p className="text-[10px] text-white/40 font-black uppercase tracking-widest mb-2">Instructions</p>
+            <p className="text-xs text-white/60 max-w-xs font-medium">Click tiles adjacent to the empty space to slide them. Sort the numbers from 1 to 8 to win.</p>
           </div>
         )}
       </div>
