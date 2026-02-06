@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import TerminalUI from '../ui/TerminalUi';
+import { idID } from '@mui/material/locale';
 
 interface Log {
   text: string;
@@ -19,10 +20,10 @@ const EmployeeSystemDemo = () => {
 
   const startServer = () => {
     if (isServerRunning) return;
-    
+
     setIsServerRunning(true);
     addLog('info', 'Starting Employee Management System...');
-    
+
     setTimeout(() => {
       addLog('success', 'Connected to MongoDB Atlas');
       addLog('info', 'Redis cache initialized');
@@ -31,32 +32,186 @@ const EmployeeSystemDemo = () => {
     }, 800);
   };
 
-  const testGet = () => {
+  const testGet = async () => {
     if (!isServerRunning) {
       addLog('info', 'Server is not running. Start server first.');
       return;
     }
-
-    addLog('request', 'GET /api/employees?page=1&limit=10');
-    
-    setTimeout(() => {
-      addLog('response', '200 OK - Employees retrieved');
-      addLog('info', 'Count: 42 employees (page 1 of 5)');
-    }, 500);
+    await fakeGetAll();
+    await fakeGetSingle();
   };
 
-  const testPost = () => {
+  const testPost = async () => {
     if (!isServerRunning) {
       addLog('info', 'Server is not running. Start server first.');
       return;
     }
+    await fakeRegister();
+    await fakeLogin();
+    await fakeEmployeeCreate();
+  };
 
-    addLog('request', 'POST /api/employees');
-    
+  const testPut = async () => {
+    if (!isServerRunning) {
+      addLog('info', 'Server is not running. Start server first.');
+      return;
+    }
+    await fakePutEmployee();
+      
+  };
+
+  const testDelete = async () => {
+    if (!isServerRunning) {
+      addLog('info', 'Server is not running. Start server first.');
+      return;
+    }
+    addLog('request', 'DELETE /api/employees/:id');
     setTimeout(() => {
-      addLog('response', '201 Created - Employee added');
-      addLog('info', 'New employee: John Doe (Engineering)');
-    }, 500);
+        addLog('response', '200 OK - Employee successful deleted');
+      }, 500);
+  };
+
+  const fakePutEmployee = () => {
+    return new Promise(resolve => {
+      addLog('request', 'PUT /api/employees/:id');
+
+      const requestBody = JSON.stringify({
+        name: "Employee Name",
+        email: "employee@company.com",
+        role: "Software Engineer"
+      }, null, 2);
+      addLog('info', `Payload: \n${requestBody}`);
+      addLog('info', 'Auth: Bearer eyJhbGci...');
+
+      const resultBody = JSON.stringify({
+        id: 1,
+        name: "Employee Name",
+        email: "employee@company.com",
+        role: "Software Engineer"
+      }, null, 2);
+
+      setTimeout(() => {
+        addLog('response', '200 OK - Put successful');
+        addLog('info', resultBody);
+        resolve(true); // login done
+      }, 500);
+    });
+  };
+
+  const fakeRegister = () => {
+    return new Promise(resolve => {
+      addLog('request', 'POST /api/register');
+
+      const registerPayload = JSON.stringify({
+        name: "Employee Name",
+        email: "employee@company.com",
+        role: "Software Engineer",
+      }, null, 2);
+
+      addLog('info', `Payload: \n${registerPayload}`);
+
+      setTimeout(() => {
+        addLog('response', '200 OK - register successful');
+        const responseData = `[System Message]:
+>> ID: EMP-${Math.floor(Math.random() * 1000)}
+>> Status: Active
+>> Created At: ${new Date().toLocaleTimeString()}`;
+
+        addLog('success', responseData);
+        resolve(true); // register done
+      }, 500);
+    });
+  };
+
+  const fakeLogin = () => {
+    return new Promise(resolve => {
+
+      addLog('request', 'POST /api/login');
+
+      const loginResponse = JSON.stringify({
+        id: 1,
+        name: "Employee Name",
+        email: "employee@company.com",
+        role: "Software Engineer",
+        token:"eyJhbGci..."
+      }, null, 2);
+
+
+      setTimeout(() => {
+        addLog('response', '200 OK - Login successful');
+        addLog('info', loginResponse);
+        resolve(true); // login done
+      }, 500);
+    });
+  };
+
+  const fakeEmployeeCreate = () => {
+    return new Promise(resolve => {
+      addLog('request', 'POST /api/employees');
+
+      const requestBody = JSON.stringify({
+        name: "Employee Name",
+        email: "employee@company.com",
+        role: "Software Engineer"
+      }, null, 2);
+
+      addLog('info', `Payload: \n${requestBody}`);
+      addLog('info', 'Auth: Bearer eyJhbGci...');
+
+      setTimeout(() => {
+        addLog('response', '201 Created - Employee create successful');
+        const responseData = `[System Message]:
+>> ID: EMP-${Math.floor(Math.random() * 1000)}
+>> Status: Active
+>> Created At: ${new Date().toLocaleTimeString()}`;
+
+        addLog('success', responseData);
+        resolve(true); // register done
+      }, 500);
+    });
+  };
+
+
+  const fakeGetAll = () => {
+    return new Promise(resolve => {
+      addLog('request', 'GET /api/employees (Bearer token: eyJhbGci...)');
+
+
+      const employeeList = JSON.stringify([
+        { "id": 1, "name": "Earbaj", "role": "Senior Dev" },
+        { "id": 2, "name": "John Doe", "role": "Fullstack" },
+        { "id": 3, "name": "Alex Smith", "role": "Designer" }
+      ], null, 2);
+
+      addLog('info', 'Auth: Bearer eyJhbGci...');
+
+      setTimeout(() => {
+        addLog('response', '200 OK - Get successful');
+        addLog('info', employeeList);
+        resolve(true); // login done
+      }, 500);
+    });
+  };
+
+  const fakeGetSingle = () => {
+    return new Promise(resolve => {
+      addLog('request', 'GET /api/employees/id');
+
+      const requestBody = JSON.stringify({
+        id: 1,
+        name: "Employee Name",
+        email: "employee@company.com",
+        role: "Software Engineer"
+      }, null, 2);
+
+      addLog('info', 'Auth: Bearer eyJhbGci...');
+
+      setTimeout(() => {
+        addLog('response', '200 OK - Get successful');
+        addLog('info', requestBody);
+        resolve(true); // login done
+      }, 500);
+    });
   };
 
   return (
@@ -67,6 +222,8 @@ const EmployeeSystemDemo = () => {
       onStartServer={startServer}
       onTestGet={testGet}
       onTestPost={testPost}
+      onTestPut={testPut}
+      onTestDelete={testDelete}
     />
   );
 };

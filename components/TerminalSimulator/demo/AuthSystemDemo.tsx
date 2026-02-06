@@ -61,7 +61,8 @@ const AuthSystemDemo = () => {
     await fakeRegister();
     await fakeLogin();
   };
-  
+
+
 
   const fakeRegister = () => {
     return new Promise(resolve => {
@@ -99,6 +100,7 @@ const AuthSystemDemo = () => {
       onStartServer={startServer}
       onTestGet={testGet}
       onTestPost={testPost}
+      onTestPut={null}
     />
   );
 };
