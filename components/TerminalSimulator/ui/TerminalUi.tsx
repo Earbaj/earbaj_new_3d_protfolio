@@ -240,7 +240,7 @@ const TerminalUI: React.FC<TerminalUIProps> = ({
           {!isServerRunning ? (
             <button
               onClick={onStartServer}
-              className={`w-full py-3 sm:py-4 bg-white/5 border border-white/40 hover:bg-white/10 text-white font-black text-[9px] sm:text-[10px] uppercase tracking-[0.2em] rounded-xl transition-all active:scale-95`}
+              className={`w-full py-3 sm:py-4 bg-white/5 border border-white/40 hover:bg-purple-500/10 hover:text-purple-500 font-black text-[9px] sm:text-[10px] uppercase tracking-[0.2em] rounded-xl transition-all active:scale-95`}
             >
               NPM START SERVER
             </button>
@@ -248,13 +248,13 @@ const TerminalUI: React.FC<TerminalUIProps> = ({
             <div className="grid grid-cols-2 gap-2 sm:gap-3">
               <button
                 onClick={onTestGet}
-                className="py-2.5 sm:py-3 bg-white/5 border border-white/40 text-white/60 font-black text-[8px] sm:text-[10px] uppercase tracking-widest rounded-xl hover:bg-white/10 hover:text-white transition-all active:scale-95"
+                className="py-2.5 sm:py-3 bg-white/5 border border-white/40 text-white/60 font-black text-[8px] sm:text-[10px] uppercase tracking-widest rounded-xl hover:bg-green-500/10 hover:text-green-500 transition-all active:scale-95"
               >
                 GET API
               </button>
               <button
                 onClick={onTestPost}
-                className="py-2.5 sm:py-3 bg-white/5 border border-white/40 text-white/60 font-black text-[8px] sm:text-[10px] uppercase tracking-widest rounded-xl hover:bg-white/10 hover:text-white transition-all active:scale-95"
+                className="py-2.5 sm:py-3 bg-white/5 border border-white/40 text-white/60 font-black text-[8px] sm:text-[10px] uppercase tracking-widest rounded-xl hover:bg-yellow-500/10 hover:text-yellow-500 transition-all active:scale-95"
               >
                 POST API
               </button>
@@ -262,7 +262,7 @@ const TerminalUI: React.FC<TerminalUIProps> = ({
               {onTestPut && (
                 <button
                   onClick={onTestPut}
-                  className="py-2.5 sm:py-3 bg-white/5 border border-white/40 text-white/60 font-black text-[8px] sm:text-[10px] uppercase tracking-widest rounded-xl hover:bg-white/10 hover:text-white transition-all active:scale-95"
+                  className="py-2.5 sm:py-3 bg-white/5 border border-white/40 text-white/60 font-black text-[8px] sm:text-[10px] uppercase tracking-widest rounded-xl hover:bg-blue-500/10 hover:text-blue-500 transition-all active:scale-95"
                 >
                   PUT API
                 </button>
@@ -282,7 +282,7 @@ const TerminalUI: React.FC<TerminalUIProps> = ({
           <div className="flex justify-between items-center px-1">
             <div className="flex items-center gap-2">
               <span className={`w-1.5 h-1.5 rounded-full ${isServerRunning ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'}`}></span>
-              <span className="text-[7px] sm:text-[8px] text-white/30 font-bold uppercase tracking-widest">
+              <span className="text-[7px] sm:text-[10px] text-white/70 font-bold uppercase tracking-widest">
                 {isServerRunning ? 'Online' : 'Offline'}
               </span>
             </div>
