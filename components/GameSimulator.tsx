@@ -395,6 +395,7 @@ const GameSimulator: React.FC = () => {
 
   return (
     <div className="w-full max-w-5xl mx-auto py-8 sm:py-12 px-2 sm:px-4">
+      
       <div className="glass p-4 sm:p-6 md:p-12 rounded-[2rem] sm:rounded-[3.5rem] border-white/5 bg-slate-900/40 shadow-3xl flex flex-col items-center">
         
         <div className="flex flex-col sm:flex-row justify-between w-full mb-6 sm:mb-10 items-start sm:items-center gap-4">
