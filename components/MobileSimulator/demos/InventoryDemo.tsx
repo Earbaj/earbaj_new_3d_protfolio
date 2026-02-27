@@ -4,7 +4,7 @@ import Inventory2Icon from '@mui/icons-material/Inventory2';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export const InventoryDemo = () => {
-   const [step, setStep] = useState<'login' | 'dashboard' | 'manageitems'>('login');
+   const [step, setStep] = useState<'login' | 'dashboard' | 'manageitems' | 'viewreport'>('login');
 
    const [isSheetOpen, setIsSheetOpen] = useState(false);
 
@@ -190,7 +190,7 @@ export const InventoryDemo = () => {
                         </div>
                         <span className="text-[9px] font-black text-slate-600 uppercase tracking-tight">Manage Items</span>
                      </button>
-                     <button className="w-15 h-20 bg-white p-4 rounded-2xl shadow-sm flex flex-col items-center gap-3 border border-slate-50 active:scale-95 transition-all">
+                     <button onClick={() => setStep('viewreport')} className="w-15 h-20 bg-white p-4 rounded-2xl shadow-sm flex flex-col items-center gap-3 border border-slate-50 active:scale-95 transition-all">
                         <div className="w-6 h-6 bg-green-50 rounded-xl flex items-center justify-center text-green-500">
                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" /></svg>
                         </div>
@@ -216,154 +216,228 @@ export const InventoryDemo = () => {
       );
    } else if (step === 'manageitems') {
       return (
-      <div className="h-screen w-full flex flex-col bg-[#fffcf5] font-sans relative overflow-hidden">
-         
-         {/* 1. Header - Fixed at top */}
-         <header className="pt-10 pb-4 px-4 flex justify-between items-center bg-blue-500 z-30 shadow-md">
-            <button onClick={() => console.log('back')} className="p-2">
+         <div className="h-screen w-full flex flex-col bg-[#fffcf5] font-sans relative overflow-hidden">
+
+            {/* 1. Header - Fixed at top */}
+            <header className="pt-8 pb-4 px-4 flex justify-between items-center bg-blue-500 z-30 shadow-md">
+               <button onClick={() => setStep('dashboard')} className="p-2">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                  </svg>
+               </button>
+               <h1 className="text-xl font-bold text-white tracking-tighter">Manage Items</h1>
+               <div className='w-10'></div>
+            </header>
+
+            {/* 2. Scrollable Content Area */}
+            <div className="flex-1 overflow-y-auto no-scrollbar p-2 space-y-2">
+
+               {/* Search Bar */}
+               <section className="relative">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                     </svg>
+                  </div>
+                  <input
+                     type="text"
+                     placeholder="Search items..."
+                     className="w-full bg-white border border-slate-200 rounded-2xl py-3 pl-11 pr-4 text-sm shadow-sm outline-none"
+                  />
+               </section>
+
+               {/* Items Grid */}
+               <div className="grid grid-cols-1 gap-3 pb-24">
+                  {/* Item Card 1: Keyboard */}
+                  <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
+                     <div className="flex justify-between items-center mb-2">
+                        <div>
+                           <h4 className="text-sm font-black text-slate-800">Keyboard</h4>
+                           <p className="text-xs text-slate-400">SKU: KB-MECH</p>
+                        </div>
+                        <div className="text-sm font-black text-blue-600">$89.99</div>
+                     </div>
+                     <div className="flex justify-between items-center bg-slate-50 rounded-lg p-2">
+                        <div className="flex flex-col">
+                           <span className="text-[10px] font-black text-slate-500 uppercase">Current</span>
+                           <div className="flex items-center gap-1">
+                              <span className="text-sm font-black text-slate-800">12</span>
+                              <span className="text-[10px] font-black px-1.5 py-0.5 bg-red-100 text-red-600 rounded">Low</span>
+                           </div>
+                        </div>
+                        <div className="text-right">
+                           <span className="text-[10px] font-black text-slate-500 uppercase">Min</span>
+                           <div className="text-sm font-black text-slate-800">15</div>
+                        </div>
+                     </div>
+                  </div>
+
+                  {/* Item Card 2: Monitor */}
+                  <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
+                     <div className="flex justify-between items-center mb-2">
+                        <div>
+                           <h4 className="text-sm font-black text-slate-800">Monitor</h4>
+                           <p className="text-xs text-slate-400">SKU: MON-27</p>
+                        </div>
+                        <div className="text-sm font-black text-blue-600">$299.99</div>
+                     </div>
+                     <div className="flex justify-between items-center bg-slate-50 rounded-lg p-2">
+                        <div className="flex flex-col">
+                           <span className="text-[10px] font-black text-slate-500 uppercase">Current</span>
+                           <div className="flex items-center gap-1">
+                              <span className="text-sm font-black text-slate-800">18</span>
+                              <span className="text-[10px] font-black px-1.5 py-0.5 bg-green-100 text-green-600 rounded">Good</span>
+                           </div>
+                        </div>
+                        <div className="text-right">
+                           <span className="text-[10px] font-black text-slate-500 uppercase">Min</span>
+                           <div className="text-sm font-black text-slate-800">10</div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+            {/* 3. Floating Action Button */}
+            <button
+               onClick={() => setIsSheetOpen(true)}
+               className="fixed bottom-8 right-6 w-14 h-14 bg-blue-600 rounded-full flex items-center justify-center shadow-xl z-40 active:scale-90 transition-transform"
+            >
                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M12 4v16m8-8H4" />
                </svg>
             </button>
-            <h1 className="text-xl font-bold text-white tracking-tighter">Manage Items</h1>
-            <div className='w-10'></div>
-         </header>
 
-         {/* 2. Scrollable Content Area */}
-         <div className="flex-1 overflow-y-auto no-scrollbar p-2 space-y-2">
-            
-            {/* Search Bar */}
-            <section className="relative">
-               <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-               </div>
-               <input
-                  type="text"
-                  placeholder="Search items..."
-                  className="w-full bg-white border border-slate-200 rounded-2xl py-3 pl-11 pr-4 text-sm shadow-sm outline-none"
-               />
-            </section>
+            {/* 4. The Bottom Sheet (Appears over everything) */}
+            {isSheetOpen && (
+               <div className="fixed inset-0 z-50 flex items-end">
+                  {/* Dark Backdrop */}
+                  <div
+                     className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+                     onClick={() => setIsSheetOpen(false)}
+                  />
 
-            {/* Items Grid */}
-            <div className="grid grid-cols-1 gap-3 pb-24">
-               {/* Item Card 1: Keyboard */}
-               <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
-                  <div className="flex justify-between items-center mb-2">
-                     <div>
-                        <h4 className="text-sm font-black text-slate-800">Keyboard</h4>
-                        <p className="text-xs text-slate-400">SKU: KB-MECH</p>
-                     </div>
-                     <div className="text-sm font-black text-blue-600">$89.99</div>
-                  </div>
-                  <div className="flex justify-between items-center bg-slate-50 rounded-lg p-2">
-                     <div className="flex flex-col">
-                        <span className="text-[10px] font-black text-slate-500 uppercase">Current</span>
-                        <div className="flex items-center gap-1">
-                           <span className="text-sm font-black text-slate-800">12</span>
-                           <span className="text-[10px] font-black px-1.5 py-0.5 bg-red-100 text-red-600 rounded">Low</span>
+                  {/* Sheet Form */}
+                  <div className="relative w-full bg-white rounded-t-[32px] p-6 shadow-2xl animate-in slide-in-from-bottom duration-300">
+                     <div className="w-12 h-1 bg-slate-300 rounded-full mx-auto mb-6" />
+
+                     <h2 className="text-lg font-black text-slate-800 mb-6">Add New Item</h2>
+
+                     <div className="space-y-4">
+                        <div>
+                           <label className="text-[10px] font-black text-slate-500 uppercase mb-1 block">Item Name</label>
+                           <input type="text" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm outline-none focus:border-blue-500" placeholder="Enter name" />
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-3">
+                           <div>
+                              <label className="text-[10px] font-black text-slate-500 uppercase mb-1 block">Price</label>
+                              <input type="number" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm outline-none" placeholder="0.00" />
+                           </div>
+                           <div>
+                              <label className="text-[10px] font-black text-slate-500 uppercase mb-1 block">Min Stock</label>
+                              <input type="number" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm outline-none" placeholder="5" />
+                           </div>
+                        </div>
+
+                        <div>
+                           <label className="text-[10px] font-black text-slate-500 uppercase mb-1 block">Total Stock</label>
+                           <input type="number" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm outline-none" placeholder="100" />
+                        </div>
+
+                        <div className="flex gap-3 pt-6 pb-2">
+                           <button
+                              onClick={() => setIsSheetOpen(false)}
+                              className="flex-1 py-3 bg-slate-100 text-slate-600 font-bold rounded-xl active:bg-slate-200"
+                           >
+                              Cancel
+                           </button>
+                           <button
+                              className="flex-1 py-3 bg-blue-600 text-white font-bold rounded-xl shadow-lg active:bg-blue-700"
+                           >
+                              Save Item
+                           </button>
                         </div>
                      </div>
-                     <div className="text-right">
-                        <span className="text-[10px] font-black text-slate-500 uppercase">Min</span>
-                        <div className="text-sm font-black text-slate-800">15</div>
-                     </div>
                   </div>
                </div>
-
-               {/* Item Card 2: Monitor */}
-               <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
-                  <div className="flex justify-between items-center mb-2">
-                     <div>
-                        <h4 className="text-sm font-black text-slate-800">Monitor</h4>
-                        <p className="text-xs text-slate-400">SKU: MON-27</p>
-                     </div>
-                     <div className="text-sm font-black text-blue-600">$299.99</div>
-                  </div>
-                  <div className="flex justify-between items-center bg-slate-50 rounded-lg p-2">
-                     <div className="flex flex-col">
-                        <span className="text-[10px] font-black text-slate-500 uppercase">Current</span>
-                        <div className="flex items-center gap-1">
-                           <span className="text-sm font-black text-slate-800">18</span>
-                           <span className="text-[10px] font-black px-1.5 py-0.5 bg-green-100 text-green-600 rounded">Good</span>
-                        </div>
-                     </div>
-                     <div className="text-right">
-                        <span className="text-[10px] font-black text-slate-500 uppercase">Min</span>
-                        <div className="text-sm font-black text-slate-800">10</div>
-                     </div>
-                  </div>
-               </div>
-            </div>
+            )}
          </div>
+      );
+   } else if (step === 'viewreport') {
+      return (
+         <div className="h-screen w-full flex flex-col bg-[#fffcf5] font-sans relative overflow-hidden">
 
-         {/* 3. Floating Action Button */}
-         <button 
-            onClick={() => setIsSheetOpen(true)}
-            className="fixed bottom-8 right-6 w-14 h-14 bg-blue-600 rounded-full flex items-center justify-center shadow-xl z-40 active:scale-90 transition-transform"
-         >
-            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M12 4v16m8-8H4" />
-            </svg>
-         </button>
+            {/* 1. Header - Fixed at top */}
+            <header className="pt-8 pb-4 px-4 flex justify-between items-center bg-blue-500 z-30 shadow-md">
+               <button onClick={() => setStep('dashboard')} className="p-2">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                  </svg>
+               </button>
+               <h1 className="text-xl font-bold text-white tracking-tighter">View Report</h1>
+               <div className='w-10'></div>
+            </header>
 
-         {/* 4. The Bottom Sheet (Appears over everything) */}
-         {isSheetOpen && (
-            <div className="fixed inset-0 z-50 flex items-end">
-               {/* Dark Backdrop */}
-               <div 
-                  className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
-                  onClick={() => setIsSheetOpen(false)}
-               />
-               
-               {/* Sheet Form */}
-               <div className="relative w-full bg-white rounded-t-[32px] p-6 shadow-2xl animate-in slide-in-from-bottom duration-300">
-                  <div className="w-12 h-1 bg-slate-300 rounded-full mx-auto mb-6" />
-                  
-                  <h2 className="text-lg font-black text-slate-800 mb-6">Add New Item</h2>
-                  
-                  <div className="space-y-4">
-                     <div>
-                        <label className="text-[10px] font-black text-slate-500 uppercase mb-1 block">Item Name</label>
-                        <input type="text" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm outline-none focus:border-blue-500" placeholder="Enter name" />
-                     </div>
+            {/* 2. Content Area */}
+            <div className="flex-1 overflow-y-auto no-scrollbar p-2 space-y-2">
+               {/* Top Card */}
+               <div className="mx-auto flex max-w-sm items-center gap-x-2 rounded-xl bg-blue-300 p-4 shadow-lg outline outline-black/5 dark:bg-slate-800 dark:shadow-none dark:-outline-offset-1 dark:outline-white/10">
+                  <svg
+                     className="w-4 h-4 text-black"
+                     viewBox="0 0 20 20"
+                     fill="currentColor"
+                  >
+                     <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                  </svg>
+                  <div>
+                     <div className="text-sm font-medium text-black dark:text-white">Date Range</div>
+                     <p className="text-xs text-gray-500 dark:text-gray-400">Nov 28 - Dec 27</p>
+                  </div>
+                  <div className='w-25 px-4 py-2 bg-white rounded-full flex items-center gap-1'>
+                     <svg
+                        className="w-3 h-3 text-blue-500"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                     >
+                        <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                     </svg>
+                     <div className="text-xs font-medium text-black dark:text-white">Change</div>
+                  </div>
+               </div>
+               {/* Middle Card */}
+               <div className="mx-auto flex flex-col max-w-sm gap-x-2 rounded-xl bg-blue-300 p-4 shadow-lg outline outline-black/5 dark:bg-slate-800 dark:shadow-none dark:-outline-offset-1 dark:outline-white/10">
 
-                     <div className="grid grid-cols-2 gap-3">
-                        <div>
-                           <label className="text-[10px] font-black text-slate-500 uppercase mb-1 block">Price</label>
-                           <input type="number" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm outline-none" placeholder="0.00" />
-                        </div>
-                        <div>
-                           <label className="text-[10px] font-black text-slate-500 uppercase mb-1 block">Min Stock</label>
-                           <input type="number" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm outline-none" placeholder="5" />
-                        </div>
-                     </div>
-
-                     <div>
-                        <label className="text-[10px] font-black text-slate-500 uppercase mb-1 block">Total Stock</label>
-                        <input type="number" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm outline-none" placeholder="100" />
-                     </div>
-
-                     <div className="flex gap-3 pt-6 pb-2">
-                        <button 
-                           onClick={() => setIsSheetOpen(false)}
-                           className="flex-1 py-3 bg-slate-100 text-slate-600 font-bold rounded-xl active:bg-slate-200"
-                        >
-                           Cancel
-                        </button>
-                        <button 
-                           className="flex-1 py-3 bg-blue-600 text-white font-bold rounded-xl shadow-lg active:bg-blue-700"
-                        >
-                           Save Item
-                        </button>
-                     </div>
+                  <div className='flex flex-row gap-2'>
+                     <svg
+                        className="w-4 h-4 text-black"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        xmlns="http://www.w3.org/2000/01/svg"
+                     >
+                        <path
+                           fillRule="evenodd"
+                           d="M10 18a8 8 0 100-16 8 8 0 000 16zM9 4.053a6.002 6.002 0 014.947 4.947H9V4.053zm0 6.947v5.947a6.002 6.002 0 01-4.947-4.947H9z"
+                           clipRule="evenodd"
+                        />
+                     </svg>
+                     <div className="text-sm font-medium text-black dark:text-white">Sales By Payment</div>
+                  </div>
+                  <div className='w-35 px-4 py-2 bg-white rounded-full flex items-center gap-1'>
+                     <svg
+                        className="w-3 h-3 text-blue-500"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                     >
+                        <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                     </svg>
+                     <div className="text-xs font-medium text-black dark:text-white">Change</div>
                   </div>
                </div>
             </div>
-         )}
-      </div>
-   );
+
+         </div>
+      );
    }
 
    return (
