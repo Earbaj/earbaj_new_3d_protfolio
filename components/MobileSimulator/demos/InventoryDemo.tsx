@@ -6,6 +6,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 export const InventoryDemo = () => {
    const [step, setStep] = useState<'login' | 'dashboard' | 'manageitems'>('login');
 
+   const [isSheetOpen, setIsSheetOpen] = useState(false);
+
    if (step === 'login') {
       return (
          <div className="h-full w-full bg-white from-[#4A90E2] to-[#9B51E0] flex flex-col items-center justify-center p-4 font-sans relative">
@@ -214,104 +216,154 @@ export const InventoryDemo = () => {
       );
    } else if (step === 'manageitems') {
       return (
-         <div className="h-full flex flex-col bg-[#fffcf5] font-sans overflow-y-auto no-scrollbar">
-            {/* Manager Dashboard Header */}
-            <header className="pt-10 pb-2 px-2 flex justify-between items-center sticky top-0 bg-blue-500/90 backdrop-blur-md z-50">
-               <button onClick={() => setStep('dashboard')} className="p-2 text-slate-400">
-                  <ArrowBackIcon className="text-white w-30 h-30 transition-colors" />
-               </button>
-               <h1 className="text-xl text-white text-slate-800 tracking-tighter">Manage Items</h1>
-               <div className='w-10'></div>
-            </header>
+      <div className="h-screen w-full flex flex-col bg-[#fffcf5] font-sans relative overflow-hidden">
+         
+         {/* 1. Header - Fixed at top */}
+         <header className="pt-10 pb-4 px-4 flex justify-between items-center bg-blue-500 z-30 shadow-md">
+            <button onClick={() => console.log('back')} className="p-2">
+               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+               </svg>
+            </button>
+            <h1 className="text-xl font-bold text-white tracking-tighter">Manage Items</h1>
+            <div className='w-10'></div>
+         </header>
 
-            <div className='flex-0.5 overflow-y-auto pb-15'>{/* Scrollable container */}
-               <div className="p-2 space-y-6">
-               {/* Search Section */}
-               <section className="flex justify-between items-center mb-2 px-2">
-                  <div className="relative">
-                     <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                     </div>
-                     <input
-                        type="text"
-                        placeholder="Search items..."
-                        className="w-full bg-white border border-slate-200 rounded-2xl py-2 pl-11 pr-4 text-sm font-medium text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
-                     />
-                  </div>
-               </section>
-
-               {/* Items Lists */}
-               <section className="relative">
-                  {/* Items Grid */}
-                  <div className="grid grid-cols-1 gap-3">
-                     {/* Item Card 1 */}
-                     <div className="bg-white rounded-xl p-3 border border-slate-300">
-                        <div className="flex justify-between items-center mb-1">
-                           <div>
-                              <h4 className="text-sm font-black text-slate-800">Keyboard</h4>
-                              <p className="text-xs text-slate-400">SKU: KB-MECH</p>
-                           </div>
-                           <div className="text-sm font-black text-blue-600">$89.99</div>
-                        </div>
-                        <div className="flex justify-between items-center bg-slate-50 rounded-lg p-2">
-                           <div>
-                              <div className="text-[10px] font-black text-slate-500 uppercase">Current</div>
-                              <div className="flex items-center gap-1">
-                                 <span className="text-sm font-black text-slate-800">12</span>
-                                 <span className={`text-[10px] font-black px-1.5 py-0.5 rounded ${12 < 15 ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600'}`}>
-                                    {12 < 15 ? 'Low' : 'Good'}
-                                 </span>
-                              </div>
-                           </div>
-                           <div className="text-right">
-                              <div className="text-[10px] font-black text-slate-500 uppercase">Min</div>
-                              <div className="text-sm font-black text-slate-800">15</div>
-                           </div>
-                        </div>
-                     </div>
-
-                     {/* Item Card 2 */}
-                     <div className="bg-white rounded-xl p-3 border border-slate-100">
-                        <div className="flex justify-between items-center mb-2">
-                           <div>
-                              <h4 className="text-sm font-black text-slate-800">Monitor</h4>
-                              <p className="text-xs text-slate-400">SKU: MON-27</p>
-                           </div>
-                           <div className="text-sm font-black text-blue-600">$299.99</div>
-                        </div>
-                        <div className="flex justify-between items-center bg-slate-50 rounded-lg p-2">
-                           <div>
-                              <div className="text-[10px] font-black text-slate-500 uppercase">Current</div>
-                              <div className="flex items-center gap-1">
-                                 <span className="text-sm font-black text-slate-800">18</span>
-                                 <span className="text-[10px] font-black px-1.5 py-0.5 bg-green-100 text-green-600 rounded">
-                                    Good
-                                 </span>
-                              </div>
-                           </div>
-                           <div className="text-right">
-                              <div className="text-[10px] font-black text-slate-500 uppercase">Min</div>
-                              <div className="text-sm font-black text-slate-800">10</div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-
-                  {/* Floating Button */}
-                  <button className="fixed bottom-15 right-5 w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center shadow-xl shadow-blue-500/40 hover:bg-blue-600 transition-all">
-                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M12 4v16m8-8H4" />
-                     </svg>
-                  </button>
-               </section>
-            </div>
-            <div className="h-10"></div>
-            </div>
+         {/* 2. Scrollable Content Area */}
+         <div className="flex-1 overflow-y-auto no-scrollbar p-2 space-y-2">
             
+            {/* Search Bar */}
+            <section className="relative">
+               <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+               </div>
+               <input
+                  type="text"
+                  placeholder="Search items..."
+                  className="w-full bg-white border border-slate-200 rounded-2xl py-3 pl-11 pr-4 text-sm shadow-sm outline-none"
+               />
+            </section>
+
+            {/* Items Grid */}
+            <div className="grid grid-cols-1 gap-3 pb-24">
+               {/* Item Card 1: Keyboard */}
+               <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
+                  <div className="flex justify-between items-center mb-2">
+                     <div>
+                        <h4 className="text-sm font-black text-slate-800">Keyboard</h4>
+                        <p className="text-xs text-slate-400">SKU: KB-MECH</p>
+                     </div>
+                     <div className="text-sm font-black text-blue-600">$89.99</div>
+                  </div>
+                  <div className="flex justify-between items-center bg-slate-50 rounded-lg p-2">
+                     <div className="flex flex-col">
+                        <span className="text-[10px] font-black text-slate-500 uppercase">Current</span>
+                        <div className="flex items-center gap-1">
+                           <span className="text-sm font-black text-slate-800">12</span>
+                           <span className="text-[10px] font-black px-1.5 py-0.5 bg-red-100 text-red-600 rounded">Low</span>
+                        </div>
+                     </div>
+                     <div className="text-right">
+                        <span className="text-[10px] font-black text-slate-500 uppercase">Min</span>
+                        <div className="text-sm font-black text-slate-800">15</div>
+                     </div>
+                  </div>
+               </div>
+
+               {/* Item Card 2: Monitor */}
+               <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
+                  <div className="flex justify-between items-center mb-2">
+                     <div>
+                        <h4 className="text-sm font-black text-slate-800">Monitor</h4>
+                        <p className="text-xs text-slate-400">SKU: MON-27</p>
+                     </div>
+                     <div className="text-sm font-black text-blue-600">$299.99</div>
+                  </div>
+                  <div className="flex justify-between items-center bg-slate-50 rounded-lg p-2">
+                     <div className="flex flex-col">
+                        <span className="text-[10px] font-black text-slate-500 uppercase">Current</span>
+                        <div className="flex items-center gap-1">
+                           <span className="text-sm font-black text-slate-800">18</span>
+                           <span className="text-[10px] font-black px-1.5 py-0.5 bg-green-100 text-green-600 rounded">Good</span>
+                        </div>
+                     </div>
+                     <div className="text-right">
+                        <span className="text-[10px] font-black text-slate-500 uppercase">Min</span>
+                        <div className="text-sm font-black text-slate-800">10</div>
+                     </div>
+                  </div>
+               </div>
+            </div>
          </div>
-      );
+
+         {/* 3. Floating Action Button */}
+         <button 
+            onClick={() => setIsSheetOpen(true)}
+            className="fixed bottom-8 right-6 w-14 h-14 bg-blue-600 rounded-full flex items-center justify-center shadow-xl z-40 active:scale-90 transition-transform"
+         >
+            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M12 4v16m8-8H4" />
+            </svg>
+         </button>
+
+         {/* 4. The Bottom Sheet (Appears over everything) */}
+         {isSheetOpen && (
+            <div className="fixed inset-0 z-50 flex items-end">
+               {/* Dark Backdrop */}
+               <div 
+                  className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+                  onClick={() => setIsSheetOpen(false)}
+               />
+               
+               {/* Sheet Form */}
+               <div className="relative w-full bg-white rounded-t-[32px] p-6 shadow-2xl animate-in slide-in-from-bottom duration-300">
+                  <div className="w-12 h-1 bg-slate-300 rounded-full mx-auto mb-6" />
+                  
+                  <h2 className="text-lg font-black text-slate-800 mb-6">Add New Item</h2>
+                  
+                  <div className="space-y-4">
+                     <div>
+                        <label className="text-[10px] font-black text-slate-500 uppercase mb-1 block">Item Name</label>
+                        <input type="text" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm outline-none focus:border-blue-500" placeholder="Enter name" />
+                     </div>
+
+                     <div className="grid grid-cols-2 gap-3">
+                        <div>
+                           <label className="text-[10px] font-black text-slate-500 uppercase mb-1 block">Price</label>
+                           <input type="number" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm outline-none" placeholder="0.00" />
+                        </div>
+                        <div>
+                           <label className="text-[10px] font-black text-slate-500 uppercase mb-1 block">Min Stock</label>
+                           <input type="number" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm outline-none" placeholder="5" />
+                        </div>
+                     </div>
+
+                     <div>
+                        <label className="text-[10px] font-black text-slate-500 uppercase mb-1 block">Total Stock</label>
+                        <input type="number" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm outline-none" placeholder="100" />
+                     </div>
+
+                     <div className="flex gap-3 pt-6 pb-2">
+                        <button 
+                           onClick={() => setIsSheetOpen(false)}
+                           className="flex-1 py-3 bg-slate-100 text-slate-600 font-bold rounded-xl active:bg-slate-200"
+                        >
+                           Cancel
+                        </button>
+                        <button 
+                           className="flex-1 py-3 bg-blue-600 text-white font-bold rounded-xl shadow-lg active:bg-blue-700"
+                        >
+                           Save Item
+                        </button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         )}
+      </div>
+   );
    }
 
    return (
