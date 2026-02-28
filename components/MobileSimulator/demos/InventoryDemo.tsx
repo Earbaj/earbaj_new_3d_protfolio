@@ -407,7 +407,7 @@ export const InventoryDemo = () => {
                </div>
                {/* Middle Card */}
                <div className="mx-auto flex flex-col max-w-sm gap-x-2 rounded-xl bg-blue-300 p-4 shadow-lg outline outline-black/5 dark:bg-slate-800 dark:shadow-none dark:-outline-offset-1 dark:outline-white/10">
-
+                  {/*top icon and text row*/}
                   <div className='flex flex-row gap-2'>
                      <svg
                         className="w-4 h-4 text-black"
@@ -423,15 +423,115 @@ export const InventoryDemo = () => {
                      </svg>
                      <div className="text-sm font-medium text-black dark:text-white">Sales By Payment</div>
                   </div>
-                  <div className='w-35 px-4 py-2 bg-white rounded-full flex items-center gap-1'>
+                  {/* Toggle button*/}
+                  <div className='w-38 bg-white rounded-full flex items-center gap-1 my-2'>
+                     <div className='flex flex-row-2 items-center gap-2 rounded-l-full bg-blue-500 p-1'>
+                        <svg
+                           className="w-3 h-3 text-white"
+                           viewBox="0 0 20 20"
+                           fill="currentColor"
+                           xmlns="http://www.w3.org/2000/01/svg"
+                        >
+                           <path
+                              fillRule="evenodd"
+                              d="M2.5 4A1.5 1.5 0 001 5.5V6h18v-.5A1.5 1.5 0 0017.5 4h-15zM19 8.5H1v6A1.5 1.5 0 002.5 16h15a1.5 1.5 0 001.5-1.5v-6zM5 13a1 1 0 100-2 1 1 0 000 2zm3-1a1 1 0 112 0 1 1 0 01-2 0z"
+                              clipRule="evenodd"
+                           />
+                        </svg>
+                        <div className="text-xs font-medium text-white dark:text-white">Payment</div>
+                     </div>
                      <svg
-                        className="w-3 h-3 text-blue-500"
+                        className="w-4 h-4 text-blue-500"
                         viewBox="0 0 20 20"
                         fill="currentColor"
                      >
                         <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
                      </svg>
-                     <div className="text-xs font-medium text-black dark:text-white">Change</div>
+                     <div className="text-xs font-medium text-blue-500 dark:text-white">Monthly</div>
+                  </div>
+                  {/* donut icons */}
+                  <div className='flex items-center px-18 py-2'>
+                     <svg className="w-15 h-15 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="9" opacity="0.2" />
+                        <path d="M12 3a9 9 0 1 1-6.36 15.36" />
+                     </svg>
+                  </div>
+               </div>
+               {/*Recent sale card*/}
+               <div className="mx-auto flex flex-col max-w-sm rounded-xl bg-blue-300 p-4 shadow-lg outline outline-black/5 dark:bg-slate-800">
+
+                  {/* Parent Row: justify-between handles the "One side / Another side" layout */}
+                  <div className='flex flex-row items-center justify-between w-full'>
+
+                     {/* LEFT SIDE: Paper Icon + Text */}
+                     <div className='flex flex-row items-center gap-2'>
+                        <svg
+                           className="w-4 h-4 text-black dark:text-white"
+                           viewBox="0 0 20 20"
+                           fill="currentColor"
+                           xmlns="http://www.w3.org/2000/01/svg"
+                        >
+                           <path
+                              fillRule="evenodd"
+                              d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
+                              clipRule="evenodd"
+                           />
+                        </svg>
+                        <div className="text-sm font-bold text-black dark:text-white whitespace-nowrap">
+                           Recent Sales
+                        </div>
+                     </div>
+
+                     {/* RIGHT SIDE: Statistics + House Icons */}
+                     <div className='flex flex-row items-center gap-3'>
+                        {/* Statistics Icon */}
+                        <svg
+                           className="w-4 h-4 text-black dark:text-white"
+                           viewBox="0 0 20 20"
+                           fill="currentColor"
+                        >
+                           <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
+                        </svg>
+
+                        {/* House Icon */}
+                        <svg
+                           className="w-4 h-4 text-black dark:text-white"
+                           viewBox="0 0 20 20"
+                           fill="currentColor"
+                        >
+                           <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                        </svg>
+                     </div>
+
+                  </div>
+                  {/*search text field*/}
+                  <div className="mx-auto mt-4 max-w-sm ">
+                     <div className="relative flex items-center">
+                        {/* 1. Search Icon (Positioned Absolute) */}
+                        <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                           <svg
+                              className="w-4 h-4 text-black dark:text-slate-400"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/01/svg"
+                           >
+                              <path
+                                 strokeLinecap="round"
+                                 strokeLinejoin="round"
+                                 strokeWidth="2.5"
+                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                              />
+                           </svg>
+                        </div>
+
+                        {/* 2. The Input Field */}
+                        <input
+                           type="text"
+                           className="block w-full rounded-2xl border-none bg-white py-3 pl-11 pr-4 text-sm font-medium text-slate-900 placeholder:text-slate-500 focus:ring-2 focus:ring-blue-400 dark:bg-slate-700 dark:text-white outline-none transition-all shadow-inner"
+                           placeholder="Search recent sales..."
+                        />
+                     </div>
                   </div>
                </div>
             </div>
