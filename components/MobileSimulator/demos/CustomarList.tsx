@@ -23,6 +23,7 @@ interface CustomerCardProps {
 }
 
 const CustomerList: React.FC<CustomerListProps> = ({ onBack }) => {
+    const [isSheetOpen, setIsSheetOpen] = useState(false);
   // Sample customer data - you can replace with API data
   const [customers] = useState<Customer[]>([
     {
@@ -81,6 +82,63 @@ const CustomerList: React.FC<CustomerListProps> = ({ onBack }) => {
             phone={customer.phone}
           />
         ))}
+         {/* 3. Floating Action Button */}
+            <button
+               onClick={() => setIsSheetOpen(true)}
+               className="fixed bottom-8 right-6 w-14 h-14 bg-blue-600 rounded-full flex items-center justify-center shadow-xl z-40 active:scale-90 transition-transform"
+            >
+               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M12 4v16m8-8H4" />
+               </svg>
+            </button>
+            {/* 4. The Bottom Sheet (Appears over everything) */}
+            {isSheetOpen && (
+               <div className="fixed inset-0 z-50 flex items-end">
+                  {/* Dark Backdrop */}
+                  <div
+                     className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+                     onClick={() => setIsSheetOpen(false)}
+                  />
+
+                  {/* Sheet Form */}
+                  <div className="relative w-full bg-white rounded-t-[32px] p-6 shadow-2xl animate-in slide-in-from-bottom duration-300">
+                     <div className="w-12 h-1 bg-slate-300 rounded-full mx-auto mb-6" />
+
+                     <h2 className="text-lg font-black text-slate-800 mb-6">Add New Customer</h2>
+
+                     <div className="space-y-4">
+                        <div>
+                           <label className="text-[10px] font-black text-slate-500 uppercase mb-1 block">Customer Name</label>
+                           <input type="text" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm outline-none focus:border-blue-500" placeholder="Enter name" />
+                        </div>
+
+                        <div>
+                           <label className="text-[10px] font-black text-slate-500 uppercase mb-1 block">Customer Email</label>
+                           <input type="text" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm outline-none" placeholder="100" />
+                        </div>
+
+                        <div>
+                           <label className="text-[10px] font-black text-slate-500 uppercase mb-1 block">Customer PhoneNumber</label>
+                           <input type="text" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm outline-none" placeholder="100" />
+                        </div>
+
+                        <div className="flex gap-3 pt-6 pb-2">
+                           <button
+                              onClick={() => setIsSheetOpen(false)}
+                              className="flex-1 py-3 bg-slate-100 text-slate-600 font-bold rounded-xl active:bg-slate-200"
+                           >
+                              Cancel
+                           </button>
+                           <button
+                              className="flex-1 py-3 bg-blue-600 text-white font-bold rounded-xl shadow-lg active:bg-blue-700"
+                           >
+                              Save
+                           </button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            )}
       </div>
     </div>
   );
@@ -119,12 +177,6 @@ const CustomerCard: React.FC<CustomerCardProps> = ({ name, role, avatar, email, 
             </p>
           )}
         </div>
-      </div>
-      {/* Optional arrow icon */}
-      <div className="hidden sm:block">
-        <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-        </svg>
       </div>
     </div>
   );
