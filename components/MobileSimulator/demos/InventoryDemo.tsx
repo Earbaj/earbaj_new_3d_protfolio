@@ -4,7 +4,7 @@ import Inventory2Icon from '@mui/icons-material/Inventory2';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export const InventoryDemo = () => {
-   const [step, setStep] = useState<'login' | 'dashboard' | 'manageitems' | 'viewreport'>('login');
+   const [step, setStep] = useState<'login' | 'dashboard' | 'manageitems' | 'viewreport' | 'customer'>('login');
 
    const [isSheetOpen, setIsSheetOpen] = useState(false);
 
@@ -196,7 +196,7 @@ export const InventoryDemo = () => {
                         </div>
                         <span className="text-[9px] font-black text-slate-600 uppercase tracking-tight">View Reports</span>
                      </button>
-                     <button className="w-15 h-20 bg-white p-4 rounded-2xl shadow-sm flex flex-col items-center gap-3 border border-slate-50 active:scale-95 transition-all">
+                     <button onClick={() => setStep('customer')} className="w-15 h-20 bg-white p-4 rounded-2xl shadow-sm flex flex-col items-center gap-3 border border-slate-50 active:scale-95 transition-all">
                         <div className="w-6 h-6 bg-orange-50 rounded-xl flex items-center justify-center text-orange-500">
                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" /></svg>
                         </div>
@@ -534,6 +534,38 @@ export const InventoryDemo = () => {
                      </div>
                   </div>
                </div>
+            </div>
+
+         </div>
+      );
+   } else if (step === 'customer') {
+      return (
+         <div className="h-screen w-full flex flex-col bg-[#fffcf5] font-sans relative overflow-hidden">
+
+            {/* 1. Header - Fixed at top */}
+            <header className="pt-8 pb-4 px-4 flex justify-between items-center bg-blue-500 z-30 shadow-md">
+               <button onClick={() => setStep('customer')} className="p-2">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                  </svg>
+               </button>
+               <h1 className="text-xl font-bold text-white tracking-tighter">Customer</h1>
+               <div className='w-10'></div>
+            </header>
+
+            {/* 2. Content Area */}
+            <div className="flex-1 overflow-y-auto no-scrollbar p-2 space-y-2">
+               {/* Top Card */}
+               <div className="flex flex-col gap-2 p-8 sm:flex-row sm:items-center sm:gap-6 sm:py-4 border-1 border-indigo-500 rounded-sm ...">
+                  <img className="mx-auto block h-12 rounded-full sm:mx-0 sm:shrink-0" src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg" alt="" />
+                  <div className="space-y-2 text-center sm:text-left">
+                     <div className="space-y-0.5">
+                        <p className="text-lg font-semibold text-black">Erin Lindford</p>
+                        <p className="font-medium text-gray-500">Manager</p>
+                     </div>
+                  </div>
+               </div>
+
             </div>
 
          </div>
