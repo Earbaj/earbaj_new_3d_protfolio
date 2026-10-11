@@ -18,3 +18,16 @@ export interface SkillCategory {
   description: string;
   icon: string;
 }
+
+export interface OpenSourceItem {
+  name: string;
+  desc: string;
+  url: string;
+  type: 'package' | 'contribution';
+  badge: string;
+  role?: string;
+  stats?: string;
+  tags?: string[];
+  prStatus?: 'merged' | 'open' | 'closed';
+  highlight?: boolean;
+}

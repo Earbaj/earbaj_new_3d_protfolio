@@ -52,7 +52,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['about', 'experience', 'projects', 'skills', 'contact'];
+      const sections = ['about', 'experience', 'projects', 'skills', 'open-source', 'contact'];
       // Use a smaller offset for smaller screens
       const offset = window.innerWidth < 768 ? 100 : 200;
       const scrollPos = window.scrollY + offset;
@@ -112,6 +112,7 @@ const App: React.FC = () => {
             <a href="#experience" onClick={(e) => scrollToSection(e, 'experience')} className={navItemClass('experience')}>Experience</a>
             <a href="#projects" onClick={(e) => scrollToSection(e, 'projects')} className={navItemClass('projects')}>Projects</a>
             <a href="#skills" onClick={(e) => scrollToSection(e, 'skills')} className={navItemClass('skills')}>Tech</a>
+            <a href="#open-source" onClick={(e) => scrollToSection(e, 'open-source')} className={navItemClass('open-source')}>Open Source</a>
             <a href="#contact" onClick={(e) => scrollToSection(e, 'contact')} className={navItemClass('contact')}>Contact</a>
           </div>
 
@@ -427,6 +428,170 @@ const App: React.FC = () => {
         </div>
       </section>
 
+      {/* Open Source & Contributions Showcase Section */}
+      <section id="open-source" className="py-12 sm:py-20 md:py-32 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto scroll-mt-24 text-left">
+        <div className="flex flex-col items-center text-center mb-10 sm:mb-16 md:mb-20 space-y-3 sm:space-y-4">
+          <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-[9px] sm:text-[11px] font-black uppercase tracking-widest">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            Community & Ecosystem Contributions
+          </div>
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-black uppercase italic tracking-tighter text-white text-center">
+            Open Source <span className="text-sky-400">&</span> Packages.
+          </h2>
+          <p className="text-white/70 text-xs sm:text-sm md:text-base max-w-2xl text-center font-normal">
+            Proudly building tools for the Flutter and open-source community — from published pub.dev packages to core upstream contributions like Canonical's Ubuntu App Center.
+          </p>
+          <div className="w-16 sm:w-20 md:w-32 h-1.5 sm:h-2 bg-sky-400 rounded-full mt-2"></div>
+        </div>
+
+        {/* Featured Canonical / Ubuntu PR Highlight Banner */}
+        {OPEN_SOURCE.filter(item => item.highlight && item.type === 'contribution').map(item => (
+          <div
+            key={item.name}
+            className="mb-8 md:mb-12 relative overflow-hidden rounded-[2rem] md:rounded-[3rem] p-6 sm:p-8 md:p-12 glass border border-orange-500/30 bg-gradient-to-br from-orange-950/30 via-slate-900/60 to-slate-950/80 shadow-2xl hover:border-orange-400/50 transition-all group"
+          >
+            <div className="absolute top-0 right-0 w-80 h-80 bg-orange-500/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20 group-hover:bg-orange-500/20 transition-all"></div>
+            
+            <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6 md:gap-10">
+              <div className="space-y-4 max-w-3xl">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                  <span className="px-3 py-1 rounded-full bg-orange-500/20 text-orange-300 border border-orange-500/30 text-[9px] sm:text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-orange-400"></span>
+                    {item.badge}
+                  </span>
+                  <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[9px] sm:text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5">
+                    <svg className="w-3 h-3 fill-current" viewBox="0 0 16 16">
+                      <path fillRule="evenodd" d="M5 3.254V3.25v.004a.75.75 0 110-.004v.004zm-1.5 0a2.25 2.25 0 114.5 0v.004a2.25 2.25 0 01-4.5-.004zM3.5 8a.75.75 0 00-.75.75v3.5c0 .414.336.75.75.75h9a.75.75 0 00.75-.75v-3.5a.75.75 0 00-.75-.75H3.5zM12 9.5H4v2h8v-2z" />
+                      <path fillRule="evenodd" d="M5.5 5.5A1.5 1.5 0 017 7v1H4V7a1.5 1.5 0 011.5-1.5z" />
+                    </svg>
+                    PR #2120 Merged
+                  </span>
+                  <span className="px-3 py-1 rounded-full bg-white/5 text-white/70 border border-white/10 text-[8px] sm:text-[9px] font-black uppercase tracking-wider">
+                    Upstream Contributor
+                  </span>
+                </div>
+
+                <div>
+                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-white uppercase italic tracking-tight group-hover:text-orange-300 transition-colors">
+                    {item.name}
+                  </h3>
+                  <p className="text-white/80 text-xs sm:text-sm md:text-base mt-2 leading-relaxed font-light">
+                    {item.desc}
+                  </p>
+                </div>
+
+                {item.tags && (
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2 pt-1">
+                    {item.tags.map(tag => (
+                      <span key={tag} className="px-2.5 py-1 bg-white/5 border border-white/10 rounded-lg text-[8px] sm:text-[9px] font-black uppercase text-white/70 tracking-wider">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0">
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl md:rounded-2xl bg-orange-500 hover:bg-orange-400 text-white font-black text-[10px] sm:text-xs uppercase tracking-widest transition-all shadow-lg shadow-orange-500/25 flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95"
+                >
+                  <span>View Merged PR</span>
+                  <span className="text-sm">↗</span>
+                </a>
+                <a
+                  href="https://github.com/ubuntu/app-center"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-6 py-3 rounded-xl border border-white/15 hover:border-white/40 bg-white/5 text-white/80 hover:text-white font-bold text-[9px] sm:text-[10px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 text-center"
+                >
+                  <span>ubuntu/app-center</span>
+                  <span>↗</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        ))}
+
+        {/* Packages Grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {OPEN_SOURCE.filter(item => item.type === 'package').map(pkg => (
+            <div
+              key={pkg.name}
+              className={`glass p-6 sm:p-8 rounded-[2rem] sm:rounded-[2.5rem] flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 group relative overflow-hidden text-left ${
+                pkg.highlight
+                  ? 'border-sky-500/40 bg-gradient-to-b from-sky-950/20 via-slate-900/40 to-slate-950/60 shadow-xl shadow-sky-500/5'
+                  : 'border-white/5 bg-slate-900/20 hover:border-white/20'
+              }`}
+            >
+              <div className="space-y-4">
+                <div className="flex justify-between items-start gap-2">
+                  <div className="flex flex-wrap gap-2">
+                    <span className="px-2.5 py-1 rounded-lg bg-sky-500/10 text-sky-300 border border-sky-500/20 text-[8px] sm:text-[9px] font-black uppercase tracking-wider flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+                      {pkg.badge}
+                    </span>
+                    {pkg.stats && (
+                      <span className="px-2.5 py-1 rounded-lg bg-white/5 text-white/60 border border-white/10 text-[8px] sm:text-[9px] font-black uppercase tracking-wider">
+                        {pkg.stats}
+                      </span>
+                    )}
+                  </div>
+                  <a
+                    href={pkg.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-8 h-8 rounded-full border border-white/10 group-hover:border-sky-400 flex items-center justify-center text-xs text-white/60 group-hover:text-white group-hover:bg-sky-500 transition-all shrink-0"
+                    title={`View ${pkg.name} on pub.dev`}
+                  >
+                    ↗
+                  </a>
+                </div>
+
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-black text-white uppercase italic tracking-tight group-hover:text-sky-300 transition-colors">
+                    {pkg.name}
+                  </h3>
+                  <div className="text-[9px] text-white/50 uppercase font-bold tracking-widest mt-1">
+                    {pkg.role}
+                  </div>
+                </div>
+
+                <p className="text-white/70 text-xs sm:text-sm leading-relaxed font-normal">
+                  {pkg.desc}
+                </p>
+
+                {pkg.tags && (
+                  <div className="flex flex-wrap gap-1.5 pt-2">
+                    {pkg.tags.map(tag => (
+                      <span key={tag} className="px-2 py-0.5 bg-white/5 border border-white/10 rounded-md text-[7px] sm:text-[8px] font-bold uppercase tracking-wider text-white/70 group-hover:border-white/20 transition-colors">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="pt-6 mt-6 border-t border-white/5 flex items-center justify-between">
+                <span className="text-[8px] sm:text-[9px] text-white/40 uppercase font-black tracking-widest">
+                  Available on pub.dev
+                </span>
+                <a
+                  href={pkg.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sky-400 hover:text-sky-300 text-[10px] sm:text-xs font-black uppercase tracking-wider flex items-center gap-1 group-hover:translate-x-1 transition-all"
+                >
+                  View Package <span>→</span>
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Contact Section */}
       <section id="contact" className="py-12 sm:py-20 md:py-40 px-4 sm:px-6 md:px-8 max-w-6xl mx-auto text-center scroll-mt-24">
         <div className="space-y-4 sm:space-y-6 md:space-y-8 mb-12 sm:mb-20 md:mb-32">
@@ -474,12 +639,27 @@ const App: React.FC = () => {
             </div>
 
             <div className="glass p-6 sm:p-8 md:p-10 rounded-[2rem] md:rounded-[3rem] bg-slate-900/20 text-left">
-              <div className="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-white mb-6 sm:mb-8 italic text-left">Open Source</div>
+              <div className="flex justify-between items-center mb-6 sm:mb-8">
+                <div className="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-white italic text-left">Open Source & Packages</div>
+                <a href="#open-source" onClick={(e) => scrollToSection(e, 'open-source')} className="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-sky-400 hover:text-sky-300 transition-colors">
+                  View All ({OPEN_SOURCE.length}) ↓
+                </a>
+              </div>
               <div className="space-y-4 sm:space-y-6">
                 {OPEN_SOURCE.map(pkg => (
-                  <a key={pkg.name} href={pkg.url} target="_blank" className="block group border-b border-white/5 pb-3 sm:pb-4 last:border-0 last:pb-0 text-left">
-                    <div className="text-white font-bold text-xs sm:text-sm md:text-base group-hover:text-sky-300 transition-colors text-left">{pkg.name}</div>
-                    <div className="text-[8px] sm:text-[9px] md:text-[10px] text-white/60 uppercase font-medium mt-1 text-left">{pkg.desc}</div>
+                  <a key={pkg.name} href={pkg.url} target="_blank" rel="noopener noreferrer" className="block group border-b border-white/5 pb-3 sm:pb-4 last:border-0 last:pb-0 text-left">
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="text-white font-bold text-xs sm:text-sm md:text-base group-hover:text-sky-300 transition-colors text-left flex items-center gap-2">
+                        <span>{pkg.name}</span>
+                        {pkg.type === 'contribution' && (
+                          <span className="px-1.5 py-0.2 bg-orange-500/20 text-orange-400 border border-orange-500/30 rounded text-[7px] font-black tracking-normal uppercase">
+                            Ubuntu PR
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-[10px] text-white/30 group-hover:text-sky-400 transition-colors">↗</span>
+                    </div>
+                    <div className="text-[8px] sm:text-[9px] md:text-[10px] text-white/60 font-medium mt-1 text-left line-clamp-2">{pkg.desc}</div>
                   </a>
                 ))}
               </div>

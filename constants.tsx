@@ -1,5 +1,5 @@
 
-import { Project, SkillCategory } from './types';
+import { Project, SkillCategory, OpenSourceItem } from './types';
 
 export const PROJECTS: Project[] = [
   {
@@ -184,20 +184,48 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
   }
 ];
 
-export const OPEN_SOURCE = [
-  { 
-    name: 'Moneris Payment', 
-    desc: 'A Flutter wrapper for seamless Moneris gateway integration.',
-    url: 'https://pub.dev/packages/moneris_payment'
+export const OPEN_SOURCE: OpenSourceItem[] = [
+  {
+    name: 'Ubuntu App Center',
+    desc: 'Improved the About page layout, responsiveness & typography adhering to canonical Yaru design guidelines.',
+    url: 'https://github.com/ubuntu/app-center/pull/2120',
+    type: 'contribution',
+    badge: 'Canonical / Ubuntu',
+    role: 'Contributor (Merged PR #2120)',
+    stats: 'Merged into Main',
+    tags: ['Flutter Desktop', 'Linux', 'Yaru Design', 'Ubuntu Core'],
+    prStatus: 'merged',
+    highlight: true
   },
-  { 
-    name: 'Custom Scaffold', 
-    desc: 'Standardized UI development component for Flutter.',
-    url: 'https://pub.dev/packages/custom_scaffold'
+  {
+    name: 'Moneris Payment',
+    desc: 'Production-ready Flutter plugin wrapper for seamless Moneris e-commerce gateway integration with tokenization.',
+    url: 'https://pub.dev/packages/moneris_payment',
+    type: 'package',
+    badge: 'Pub.dev Package',
+    role: 'Author & Maintainer',
+    stats: 'Flutter / Dart',
+    tags: ['Payment Gateway', 'E-Commerce', 'FinTech', 'Pub.dev'],
+    highlight: true
   },
-  { 
-    name: 'Generic List With Date', 
-    desc: 'Organized date-grouped lists utility package.',
-    url: 'https://pub.dev/packages/genericlistwithdate'
+  {
+    name: 'Custom Scaffold',
+    desc: 'Modular and standardized UI architecture component for Flutter apps with unified layout states and responsive behavior.',
+    url: 'https://pub.dev/packages/custom_scaffold',
+    type: 'package',
+    badge: 'Pub.dev Package',
+    role: 'Author & Maintainer',
+    stats: 'UI Architecture',
+    tags: ['Flutter UI', 'Architecture', 'Pub.dev']
+  },
+  {
+    name: 'Generic List With Date',
+    desc: 'Efficient date-grouped listing and timeline rendering utility package for Flutter applications.',
+    url: 'https://pub.dev/packages/genericlistwithdate',
+    type: 'package',
+    badge: 'Pub.dev Package',
+    role: 'Author & Maintainer',
+    stats: 'Data Formatting',
+    tags: ['Collections', 'Grouping', 'Pub.dev']
   }
 ];
