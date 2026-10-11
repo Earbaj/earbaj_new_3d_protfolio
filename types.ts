@@ -10,6 +10,8 @@ export interface Project {
   category: 'mobile' | 'backend' | 'web';
   link?: string;
   demoUrl?: string; // Link to a video or Flutter Web build
+  playStoreUrl?: string;
+  liveUrl?: string;
 }
 
 export interface SkillCategory {

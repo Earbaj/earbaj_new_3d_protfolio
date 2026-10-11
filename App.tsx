@@ -40,6 +40,7 @@ const App: React.FC = () => {
   const [activeSection, setActiveSection] = useState('about');
   const [isSummaryExpanded, setIsSummaryExpanded] = useState(false);
   const [hoveredContrib, setHoveredContrib] = useState<number | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const filteredProjects = useMemo(() => {
     return PROJECTS.filter(p => p.category === activeCategory);
@@ -69,11 +70,23 @@ const App: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
+
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
     e.preventDefault();
+    setIsMobileMenuOpen(false);
     const element = document.getElementById(sectionId);
     if (element) {
-      const headerOffset = 100;
+      const headerOffset = 90;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
@@ -99,7 +112,7 @@ const App: React.FC = () => {
     <div className="min-h-screen selection:bg-sky-500/30 selection:text-white bg-[#0b0f1a] overflow-x-hidden">
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 transition-all duration-500 px-3 sm:px-4 md:px-0">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-3 md:py-6 flex justify-between items-center glass rounded-b-2xl sm:rounded-b-3xl md:rounded-b-[2.5rem] border-t-0 shadow-2xl backdrop-blur-xl bg-slate-950/60">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 py-3 md:py-6 flex justify-between items-center glass rounded-b-2xl sm:rounded-b-3xl md:rounded-b-[2.5rem] border-t-0 shadow-2xl backdrop-blur-xl bg-slate-950/70">
           <div
             onClick={(e) => scrollToSection(e as any, 'about')}
             className="text-base sm:text-lg md:text-2xl font-black tracking-tighter text-white cursor-pointer group flex items-center gap-1"
@@ -107,7 +120,8 @@ const App: React.FC = () => {
             <span className="text-sky-400 group-hover:scale-110 transition-transform">E</span>ARBAJ<span className="text-white font-light hidden sm:inline">.SARIA</span>
           </div>
 
-          <div className="flex gap-2 sm:gap-4 md:gap-8 items-center">
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex gap-4 lg:gap-8 items-center">
             <a href="#about" onClick={(e) => scrollToSection(e, 'about')} className={navItemClass('about')}>About</a>
             <a href="#experience" onClick={(e) => scrollToSection(e, 'experience')} className={navItemClass('experience')}>Experience</a>
             <a href="#projects" onClick={(e) => scrollToSection(e, 'projects')} className={navItemClass('projects')}>Projects</a>
@@ -116,9 +130,122 @@ const App: React.FC = () => {
             <a href="#contact" onClick={(e) => scrollToSection(e, 'contact')} className={navItemClass('contact')}>Contact</a>
           </div>
 
+          {/* Mobile Drawer Toggle Button */}
+          <div className="flex md:hidden items-center gap-2">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 sm:p-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-sky-400/50 text-white transition-all active:scale-95 flex items-center justify-center gap-2"
+              aria-label="Toggle navigation drawer"
+            >
+              <div className="w-5 h-4 flex flex-col justify-between items-center relative">
+                <span className={`w-5 h-0.5 bg-white rounded-full transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-1.5 bg-sky-400' : ''}`}></span>
+                <span className={`w-3.5 h-0.5 bg-sky-400 rounded-full transition-all duration-300 self-end ${isMobileMenuOpen ? 'opacity-0' : ''}`}></span>
+                <span className={`w-5 h-0.5 bg-white rounded-full transition-all duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-2 bg-sky-400' : ''}`}></span>
+              </div>
+            </button>
+          </div>
+
           <div className="hidden lg:block w-8"></div>
         </div>
       </nav>
+
+      {/* Mobile App Drawer (Slide-Over Backdrop + Drawer Panel) */}
+      <div
+        className={`fixed inset-0 z-50 md:hidden transition-all duration-300 ${
+          isMobileMenuOpen ? 'pointer-events-auto visible' : 'pointer-events-none invisible'
+        }`}
+      >
+        {/* Backdrop overlay */}
+        <div
+          className={`absolute inset-0 bg-slate-950/80 backdrop-blur-md transition-opacity duration-300 ${
+            isMobileMenuOpen ? 'opacity-100' : 'opacity-0'
+          }`}
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+
+        {/* Drawer Content */}
+        <div
+          className={`absolute right-0 top-0 bottom-0 w-[82%] max-w-sm bg-gradient-to-b from-slate-950 via-[#0b0f1a] to-slate-950 border-l border-white/10 shadow-2xl p-6 sm:p-8 flex flex-col justify-between transition-transform duration-300 ease-out z-10 ${
+            isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
+        >
+          <div className="space-y-6">
+            {/* Drawer Header */}
+            <div className="flex justify-between items-center pb-5 border-b border-white/10">
+              <div className="flex items-center gap-2">
+                <div className="w-2.5 h-2.5 rounded-full bg-sky-400 animate-pulse"></div>
+                <div className="text-base font-black text-white tracking-tighter uppercase">
+                  Navigation
+                </div>
+              </div>
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 active:scale-95 transition-all text-xs"
+                aria-label="Close drawer"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Navigation Links */}
+            <div className="space-y-2 pt-2">
+              {[
+                { id: 'about', label: 'About', icon: '👤', tag: 'Developer Bio' },
+                { id: 'experience', label: 'Experience', icon: '🚀', tag: 'Track Record' },
+                { id: 'projects', label: 'Projects', icon: '📱', tag: 'Simulators & Demos' },
+                { id: 'skills', label: 'Tech Stack', icon: '⚡', tag: 'Architecture & Tools' },
+                { id: 'open-source', label: 'Open Source', icon: '🌐', tag: 'Packages & PRs', count: OPEN_SOURCE.length },
+                { id: 'contact', label: 'Contact', icon: '✉️', tag: 'Get In Touch' },
+              ].map(item => (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  onClick={(e) => scrollToSection(e, item.id)}
+                  className={`flex items-center justify-between p-3.5 rounded-2xl transition-all border ${
+                    activeSection === item.id
+                      ? 'bg-sky-500/15 border-sky-400/40 text-white shadow-lg shadow-sky-500/10'
+                      : 'bg-white/[0.02] border-white/5 text-white/70 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-base">{item.icon}</span>
+                    <div className="text-left">
+                      <div className="text-xs font-black uppercase tracking-wider">{item.label}</div>
+                      <div className="text-[8px] text-white/40 font-bold uppercase">{item.tag}</div>
+                    </div>
+                  </div>
+                  {item.count ? (
+                    <span className="px-2 py-0.5 rounded-full bg-sky-400/20 text-sky-300 text-[8px] font-black">
+                      {item.count}
+                    </span>
+                  ) : (
+                    <span className="text-white/30 text-xs">→</span>
+                  )}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Drawer Footer */}
+          <div className="pt-6 border-t border-white/10 space-y-4">
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                window.open('https://drive.google.com/file/d/14mkkRJZ_RnA_jiBS55273YemvoQpsCF6/view?usp=sharing', '_blank');
+              }}
+              className="w-full py-3.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-black text-[10px] uppercase tracking-widest transition-all shadow-lg shadow-sky-500/20 active:scale-95 flex items-center justify-center gap-2"
+            >
+              <span>Download Resume</span>
+              <span>↓</span>
+            </button>
+            <div className="flex justify-center gap-6 text-[9px] font-black uppercase tracking-widest text-white/50">
+              <a href="https://github.com/Earbaj" target="_blank" rel="noopener noreferrer" className="hover:text-sky-300 transition-colors">GitHub</a>
+              <span>&middot;</span>
+              <a href="https://www.linkedin.com/in/earbaj-saria-123152349/" target="_blank" rel="noopener noreferrer" className="hover:text-sky-300 transition-colors">LinkedIn</a>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Quote Section */}
       <div className="pt-28 md:pt-48 px-4 sm:px-6 max-w-7xl mx-auto">
@@ -195,7 +322,7 @@ const App: React.FC = () => {
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 sm:gap-6 md:gap-10 pt-4">
               <button
-                onClick={() => window.open('https://drive.google.com/file/d/1Cx7KGktIru8s-JrGd_3SZfH8_aeFl5Q-/view?usp=drive_link', '_blank')}
+                onClick={() => window.open('https://drive.google.com/file/d/14mkkRJZ_RnA_jiBS55273YemvoQpsCF6/view?usp=sharing', '_blank')}
                 className={`${glassyButtonClass} px-6 sm:px-8 md:px-14 py-4 sm:py-5 md:py-7 text-xs sm:text-sm md:text-lg`}
               >
                 VIEW RESUME <span className="text-base sm:text-lg">↓</span>
@@ -288,33 +415,50 @@ const App: React.FC = () => {
                   {CONTRIBUTIONS.map((item, idx) => (
                     <div
                       key={idx}
-                      className="relative group/item"
+                      className="relative group/item cursor-pointer"
+                      onClick={() => setHoveredContrib(hoveredContrib === idx ? null : idx)}
                       onMouseEnter={() => setHoveredContrib(idx)}
                       onMouseLeave={() => setHoveredContrib(null)}
                     >
                       <div className={`flex gap-4 p-5 rounded-2xl transition-all duration-300 border ${hoveredContrib === idx ? 'bg-sky-400/10 border-sky-400/50 scale-[1.02]' : 'bg-white/[0.02] border-transparent hover:border-white/10'}`}>
                         <span className={`font-black transition-transform shrink-0 ${hoveredContrib === idx ? 'text-white' : 'text-sky-400'}`}>▹</span>
                         <div className="text-left">
-                          <div className="text-[10px] sm:text-xs font-black text-white uppercase tracking-wide mb-1">{item.title}</div>
+                          <div className="text-[10px] sm:text-xs font-black text-white uppercase tracking-wide mb-1 flex items-center justify-between gap-2">
+                            <span>{item.title}</span>
+                            <span className="sm:hidden text-[8px] text-sky-400 uppercase font-black">
+                              {hoveredContrib === idx ? 'Close ▲' : 'Details ▼'}
+                            </span>
+                          </div>
                           <span className="text-xs text-white/80 font-medium leading-relaxed">{item.summary}</span>
                         </div>
                       </div>
 
-                      {/* HOVER POPUP */}
+                      {/* HOVER / TAP POPUP */}
                       {hoveredContrib === idx && (
-                        <div className="absolute left-0 sm:left-auto sm:right-0 bottom-full mb-4 w-full sm:w-[350px] z-[100] animate-in fade-in zoom-in slide-in-from-bottom-2 duration-300">
-                          <div className="p-6 rounded-[2rem] bg-slate-900/95 backdrop-blur-2xl border border-sky-400/50 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
-                            <div className="flex items-center gap-2 mb-3">
-                              <div className="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></div>
-                              <span className="text-[12px] font-black text-sky-400 uppercase tracking-widest">Technical Deep-Dive</span>
+                        <div className="absolute left-0 right-0 sm:left-auto sm:right-0 bottom-full mb-4 w-full sm:w-[350px] z-[100] animate-in fade-in zoom-in slide-in-from-bottom-2 duration-300">
+                          <div className="p-5 sm:p-6 rounded-[2rem] bg-slate-900/98 backdrop-blur-2xl border border-sky-400/50 shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
+                            <div className="flex items-center justify-between mb-3">
+                              <div className="flex items-center gap-2">
+                                <div className="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></div>
+                                <span className="text-[10px] sm:text-[12px] font-black text-sky-400 uppercase tracking-widest">Technical Deep-Dive</span>
+                              </div>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setHoveredContrib(null);
+                                }}
+                                className="sm:hidden text-white/60 hover:text-white text-xs px-2 py-0.5 rounded-full bg-white/5"
+                              >
+                                ✕
+                              </button>
                             </div>
                             <h5 className="text-sm font-black text-white mb-2 uppercase italic">{item.title}</h5>
-                            <p className="text-[14px] text-white leading-relaxed mb-4 font-light">
+                            <p className="text-xs sm:text-[14px] text-white leading-relaxed mb-4 font-light">
                               {item.details}
                             </p>
-                            <div className="pt-3 border-t border-white/80 flex items-center justify-between">
-                              <span className="text-[10px] font-black text-white/80 uppercase">Stack Used</span>
-                              <span className="text-[10px] font-black text-sky-400">{item.tech}</span>
+                            <div className="pt-3 border-t border-white/20 flex items-center justify-between">
+                              <span className="text-[9px] sm:text-[10px] font-black text-white/80 uppercase">Stack Used</span>
+                              <span className="text-[9px] sm:text-[10px] font-black text-sky-400">{item.tech}</span>
                             </div>
                           </div>
                           {/* Triangle arrow for popup */}
@@ -387,8 +531,45 @@ const App: React.FC = () => {
                   <span key={tag} className="px-2 sm:px-3 py-1 sm:py-1.5 md:px-4 md:py-2 rounded-lg bg-white/5 text-white/80 text-[7px] sm:text-[8px] md:text-[9px] font-black uppercase border border-white/10">{tag}</span>
                 ))}
               </div>
-              <div className="flex items-center gap-4 sm:gap-6">
-                <a href={activeProject.link} target="_blank" className="flex items-center gap-2 sm:gap-3 text-white font-black text-[8px] sm:text-[10px] md:text-xs tracking-widest hover:text-sky-400 transition-colors uppercase">REPO <span>↗</span></a>
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 pt-2">
+                {activeProject.playStoreUrl && (
+                  <a
+                    href={activeProject.playStoreUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-white font-black text-[9px] sm:text-[10px] uppercase tracking-wider transition-all shadow-lg shadow-emerald-500/25 flex items-center gap-2 hover:scale-[1.03] active:scale-95"
+                  >
+                    <svg className="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24">
+                      <path d="M3.609 1.814L13.792 12 3.61 22.186a2.215 2.215 0 0 1-.22-.964V2.778c0-.361.08-.696.219-.964zm11.235 11.238l2.36 2.36-12.032 6.946 9.672-9.306zm0-2.104L5.172 1.642l12.032 6.946-2.36 2.36zm1.488 1.052l3.418 1.973c.75.433.75 1.567 0 2l-3.418 1.973-2.072-2.072 2.072-1.874z"/>
+                    </svg>
+                    <span>Google Play</span>
+                    <span className="text-xs">↗</span>
+                  </a>
+                )}
+
+                {activeProject.liveUrl && (
+                  <a
+                    href={activeProject.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 border border-sky-400/40 text-sky-300 hover:text-white font-black text-[9px] sm:text-[10px] uppercase tracking-wider transition-all flex items-center gap-2 hover:scale-[1.03] active:scale-95 shadow-lg shadow-sky-500/10"
+                  >
+                    <span>🌐 Live Web POS</span>
+                    <span className="text-xs">↗</span>
+                  </a>
+                )}
+
+                {activeProject.link && (
+                  <a
+                    href={activeProject.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/30 text-white font-black text-[9px] sm:text-[10px] uppercase tracking-wider transition-all flex items-center gap-1.5"
+                  >
+                    <span>REPO</span>
+                    <span>↗</span>
+                  </a>
+                )}
               </div>
             </div>
           </div>
@@ -601,70 +782,24 @@ const App: React.FC = () => {
             <span className="text-white font-bold block sm:inline">+8801832999277</span> <span className="hidden sm:inline">&middot;</span> <span className="text-sky-400 font-black underline decoration-sky-400/20 block sm:inline">earbajsaria3@gmail.com</span>
           </p>
         </div>
-        <div className="grid lg:grid-cols-5 gap-8 sm:gap-10 md:gap-16 text-left">
-          <div className="lg:col-span-3">
-            <form className="glass p-6 sm:p-8 md:p-12 rounded-[2rem] md:rounded-[3rem] space-y-6 sm:space-y-8 md:space-y-10 bg-slate-950/80 border border-white/5 text-left">
-              <div className="grid sm:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
-                <div className="space-y-1 sm:space-y-2">
-                  <label className="text-[8px] sm:text-[9px] md:text-[10px] font-black text-white uppercase tracking-widest ml-2 sm:ml-3 text-left block">Name</label>
-                  <input type="text" placeholder="YOUR NAME" className="w-full bg-slate-900/50 border border-white/10 rounded-xl md:rounded-2xl px-5 sm:px-6 md:px-8 py-3.5 sm:py-4 md:py-5 focus:border-sky-500/50 transition-all text-white font-bold text-[10px] sm:text-xs placeholder:text-white/30 outline-none text-left" />
-                </div>
-                <div className="space-y-1 sm:space-y-2">
-                  <label className="text-[8px] sm:text-[9px] md:text-[10px] font-black text-white uppercase tracking-widest ml-2 sm:ml-3 text-left block">Email</label>
-                  <input type="email" placeholder="EMAIL@EXAMPLE.COM" className="w-full bg-slate-900/50 border border-white/10 rounded-xl md:rounded-2xl px-5 sm:px-6 md:px-8 py-3.5 sm:py-4 md:py-5 focus:border-sky-500/50 transition-all text-white font-bold text-[10px] sm:text-xs placeholder:text-white/30 outline-none text-left" />
-                </div>
+        <div className="max-w-3xl mx-auto text-left">
+          <form className="glass p-6 sm:p-8 md:p-12 rounded-[2rem] md:rounded-[3rem] space-y-6 sm:space-y-8 md:space-y-10 bg-slate-950/80 border border-white/5 text-left shadow-2xl">
+            <div className="grid sm:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
+              <div className="space-y-1 sm:space-y-2">
+                <label className="text-[8px] sm:text-[9px] md:text-[10px] font-black text-white uppercase tracking-widest ml-2 sm:ml-3 text-left block">Name</label>
+                <input type="text" placeholder="YOUR NAME" className="w-full bg-slate-900/50 border border-white/10 rounded-xl md:rounded-2xl px-5 sm:px-6 md:px-8 py-3.5 sm:py-4 md:py-5 focus:border-sky-500/50 transition-all text-white font-bold text-[10px] sm:text-xs placeholder:text-white/30 outline-none text-left" />
               </div>
               <div className="space-y-1 sm:space-y-2">
-                <label className="text-[8px] sm:text-[9px] md:text-[10px] font-black text-white uppercase tracking-widest ml-2 sm:ml-3 text-left block">Message</label>
-                <textarea rows={5} placeholder="PROJECT DETAILS..." className="w-full bg-slate-900/50 border border-white/10 rounded-xl sm:rounded-2xl md:rounded-3xl px-5 sm:px-6 md:px-8 py-3.5 sm:py-4 md:py-5 focus:border-sky-500/50 transition-all text-white font-bold text-[10px] sm:text-xs placeholder:text-white/30 resize-none outline-none text-left"></textarea>
-              </div>
-              <button type="button" className={`${glassyButtonClass} w-full py-4 sm:py-5 md:py-7 text-[10px] sm:text-xs md:text-sm`}>Send Message</button>
-            </form>
-          </div>
-
-          <div className="lg:col-span-2 space-y-6 sm:space-y-8 md:space-y-10">
-            <div className="glass p-6 sm:p-8 md:p-10 rounded-[2rem] md:rounded-[3rem] bg-slate-900/20 text-left">
-              <div className="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-white mb-6 sm:mb-8 italic text-left">Social Hub</div>
-              <div className="space-y-4 sm:space-y-6">
-                {[
-                  { name: 'GitHub', url: 'https://github.com/Earbaj' },
-                  { name: 'LinkedIn', url: 'https://www.linkedin.com/in/earbaj-saria-123152349/' }
-                ].map(social => (
-                  <a key={social.name} href={social.url} target="_blank" className="flex justify-between items-center text-sm sm:text-base md:text-xl font-black text-white hover:text-sky-300 transition-all group/social">
-                    {social.name.toUpperCase()}
-                    <span className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full border border-white/10 flex items-center justify-center text-[7px] sm:text-[8px] group-hover/social:bg-sky-400 group-hover/social:text-white transition-all text-left">↗</span>
-                  </a>
-                ))}
+                <label className="text-[8px] sm:text-[9px] md:text-[10px] font-black text-white uppercase tracking-widest ml-2 sm:ml-3 text-left block">Email</label>
+                <input type="email" placeholder="EMAIL@EXAMPLE.COM" className="w-full bg-slate-900/50 border border-white/10 rounded-xl md:rounded-2xl px-5 sm:px-6 md:px-8 py-3.5 sm:py-4 md:py-5 focus:border-sky-500/50 transition-all text-white font-bold text-[10px] sm:text-xs placeholder:text-white/30 outline-none text-left" />
               </div>
             </div>
-
-            <div className="glass p-6 sm:p-8 md:p-10 rounded-[2rem] md:rounded-[3rem] bg-slate-900/20 text-left">
-              <div className="flex justify-between items-center mb-6 sm:mb-8">
-                <div className="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-white italic text-left">Open Source & Packages</div>
-                <a href="#open-source" onClick={(e) => scrollToSection(e, 'open-source')} className="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-sky-400 hover:text-sky-300 transition-colors">
-                  View All ({OPEN_SOURCE.length}) ↓
-                </a>
-              </div>
-              <div className="space-y-4 sm:space-y-6">
-                {OPEN_SOURCE.map(pkg => (
-                  <a key={pkg.name} href={pkg.url} target="_blank" rel="noopener noreferrer" className="block group border-b border-white/5 pb-3 sm:pb-4 last:border-0 last:pb-0 text-left">
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="text-white font-bold text-xs sm:text-sm md:text-base group-hover:text-sky-300 transition-colors text-left flex items-center gap-2">
-                        <span>{pkg.name}</span>
-                        {pkg.type === 'contribution' && (
-                          <span className="px-1.5 py-0.2 bg-orange-500/20 text-orange-400 border border-orange-500/30 rounded text-[7px] font-black tracking-normal uppercase">
-                            Ubuntu PR
-                          </span>
-                        )}
-                      </div>
-                      <span className="text-[10px] text-white/30 group-hover:text-sky-400 transition-colors">↗</span>
-                    </div>
-                    <div className="text-[8px] sm:text-[9px] md:text-[10px] text-white/60 font-medium mt-1 text-left line-clamp-2">{pkg.desc}</div>
-                  </a>
-                ))}
-              </div>
+            <div className="space-y-1 sm:space-y-2">
+              <label className="text-[8px] sm:text-[9px] md:text-[10px] font-black text-white uppercase tracking-widest ml-2 sm:ml-3 text-left block">Message</label>
+              <textarea rows={5} placeholder="PROJECT DETAILS..." className="w-full bg-slate-900/50 border border-white/10 rounded-xl sm:rounded-2xl md:rounded-3xl px-5 sm:px-6 md:px-8 py-3.5 sm:py-4 md:py-5 focus:border-sky-500/50 transition-all text-white font-bold text-[10px] sm:text-xs placeholder:text-white/30 resize-none outline-none text-left"></textarea>
             </div>
-          </div>
+            <button type="button" className={`${glassyButtonClass} w-full py-4 sm:py-5 md:py-7 text-[10px] sm:text-xs md:text-sm`}>Send Message</button>
+          </form>
         </div>
       </section>
 

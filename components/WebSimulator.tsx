@@ -59,6 +59,59 @@ const WebSimulator: React.FC<WebSimulatorProps> = ({ activeProject }) => {
       );
     }
 
+    if (activeProject.id === '12') {
+      // InventarioYa POS Web Mockup
+      return (
+        <div className="h-full bg-slate-900 text-white flex flex-col font-sans">
+          <header className="h-14 bg-slate-950 border-b border-white/10 px-5 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span className="text-emerald-400 font-black text-sm tracking-tight">InventarioYa POS</span>
+              <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[8px] font-black uppercase">Vercel Live</span>
+            </div>
+            <a
+              href="https://inventarioya-pos.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[10px] font-black uppercase tracking-wider text-white/70 hover:text-emerald-300 transition-colors flex items-center gap-1"
+            >
+              Open Live ↗
+            </a>
+          </header>
+          <div className="flex-1 p-5 overflow-y-auto text-left space-y-4 bg-slate-900">
+            <div className="grid grid-cols-3 gap-3">
+              {[
+                { label: 'Today Sales', val: '$1,248.50', color: 'text-emerald-400' },
+                { label: 'Orders Completed', val: '46', color: 'text-sky-400' },
+                { label: 'Low Stock Alert', val: '3 items', color: 'text-amber-400' }
+              ].map(card => (
+                <div key={card.label} className="p-3.5 rounded-xl bg-slate-800/80 border border-white/5">
+                  <div className={`text-base sm:text-lg font-black ${card.color}`}>{card.val}</div>
+                  <div className="text-[8px] sm:text-[9px] font-bold text-white/50 uppercase tracking-wider mt-1">{card.label}</div>
+                </div>
+              ))}
+            </div>
+            <div className="p-4 rounded-xl bg-slate-800/60 border border-white/5 space-y-2">
+              <div className="text-xs font-black uppercase tracking-wider text-white/70">Recent Checkout Transactions</div>
+              {[
+                { item: 'Barcode #78491 - Coffee Beans 1kg', qty: 'x2', price: '$34.00' },
+                { item: 'Barcode #12034 - Ceramic Mug', qty: 'x1', price: '$12.50' },
+                { item: 'Barcode #99381 - Organic Milk 1L', qty: 'x4', price: '$16.00' }
+              ].map(row => (
+                <div key={row.item} className="flex justify-between items-center text-[10px] py-1.5 border-b border-white/5 last:border-0">
+                  <span className="text-white/80 font-medium truncate max-w-[200px]">{row.item}</span>
+                  <div className="flex items-center gap-3">
+                    <span className="text-white/40">{row.qty}</span>
+                    <span className="font-bold text-emerald-400">{row.price}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     if (activeProject.id === '11') {
       // Task Management Web Mockup
       return (

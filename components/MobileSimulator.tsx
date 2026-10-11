@@ -410,15 +410,30 @@ const MobileSimulator: React.FC<MobileSimulatorProps> = ({ activeProject }) => {
                         <h3 className="text-xl sm:text-2xl font-black mb-2 text-white tracking-tighter leading-tight uppercase italic">
                           {activeProject.title}
                         </h3>
-                        <p className="text-[9px] sm:text-[11px] text-white/60 leading-relaxed mb-8 sm:mb-10 px-2 sm:px-4 font-bold uppercase tracking-widest">
+                        <p className="text-[9px] sm:text-[11px] text-white/60 leading-relaxed mb-6 sm:mb-8 px-2 sm:px-4 font-bold uppercase tracking-widest">
                           {activeProject.mockupContent}
                         </p>
-                        <button 
-                          onClick={() => setIsLive(true)} 
-                          className="w-full py-4 rounded-xl sm:rounded-2xl text-[8px] sm:text-[10px] uppercase tracking-[0.2em] font-black bg-white/10 backdrop-blur-xl border border-white/20 text-white hover:bg-white/20 transition-all shadow-2xl active:scale-95"
-                        >
-                          Open Interactive
-                        </button>
+
+                        <div className="w-full space-y-2">
+                          <button 
+                            onClick={() => setIsLive(true)} 
+                            className="w-full py-3.5 rounded-xl sm:rounded-2xl text-[8px] sm:text-[10px] uppercase tracking-[0.2em] font-black bg-white/10 backdrop-blur-xl border border-white/20 text-white hover:bg-white/20 transition-all shadow-2xl active:scale-95"
+                          >
+                            Open Interactive
+                          </button>
+
+                          {activeProject.playStoreUrl && (
+                            <a
+                              href={activeProject.playStoreUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="w-full py-2.5 rounded-xl text-[8px] sm:text-[9px] uppercase tracking-wider font-black bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 hover:bg-emerald-500/30 transition-all flex items-center justify-center gap-1.5"
+                            >
+                              <span>Google Play Store</span>
+                              <span>↗</span>
+                            </a>
+                          )}
+                        </div>
                     </div>
                   </>
                 )}

@@ -27,6 +27,19 @@ export const PROJECTS: Project[] = [
     demoUrl: 'interactive'
   },
   {
+    id: '12',
+    title: 'InventarioYa POS Web',
+    description: 'Cloud web application for InventarioYa point-of-sale and retail store operations. Fully responsive, deployed live on Vercel with real-time synchronized cloud database.',
+    image: 'https://images.unsplash.com/photo-1556742049-0a67c5574f73?q=80&w=1000&auto=format&fit=crop',
+    tags: ['Next.js / React', 'Vercel Live', 'POS Dashboard', 'Retail Tech', 'Cloud Sync'],
+    mockupContent: 'InventarioYa Web POS: Live Cloud Terminal & Dashboard',
+    color: '#10b981',
+    category: 'web',
+    link: 'https://github.com/Earbaj',
+    liveUrl: 'https://inventarioya-pos.vercel.app/',
+    playStoreUrl: 'https://play.google.com/store/apps/details?id=com.earbaj.inventarioya&pcampaignid=web_share'
+  },
+  {
     id: '11',
     title: 'Task Management Web',
     description: 'A sleek, simple task management frontend built for productivity. Includes drag-and-drop features, priority filtering, and seamless state synchronization for personal workflows.',
@@ -52,15 +65,17 @@ export const PROJECTS: Project[] = [
   },
   {
     id: '2',
-    title: 'Inventory Management System',
-    description: 'Built a robust offline-first inventory tracker using SQFlite for local persistence and Firebase for online backup storage and cross-device sync.',
+    title: 'InventarioYa - POS & Inventory',
+    description: 'Production-ready Point-of-Sale (POS) and inventory management ecosystem available on Google Play and Web. Features offline-first local storage, cloud synchronization, sales analytics, barcode scanning, and multi-platform accessibility.',
     image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1000&auto=format&fit=crop',
-    tags: ['Flutter', 'SQFlite', 'Firebase'],
-    mockupContent: 'Inventory Keeper: Local Database & Cloud Sync',
+    tags: ['Flutter', 'Google Play Live', 'Web POS', 'SQFlite', 'Firebase', 'Vercel'],
+    mockupContent: 'InventarioYa: Real-time POS, Inventory & Cloud Analytics',
     color: '#22c55e',
     category: 'mobile',
     link: 'https://github.com/Earbaj',
-    demoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-man-working-on-a-laptop-40040-large.mp4'
+    demoUrl: 'interactive',
+    playStoreUrl: 'https://play.google.com/store/apps/details?id=com.earbaj.inventarioya&pcampaignid=web_share',
+    liveUrl: 'https://inventarioya-pos.vercel.app/'
   },
   {
     id: '3',
